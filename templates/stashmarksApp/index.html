@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-        {% load staticfiles %}
-<html>
+{% extends 'stashmarksApp/base.html' %}
+{% load staticfiles %}
 
-    <head>
-        <title>Stashmarks</title>
-    </head>
+{% block title %}Index{% endblock %}
 
-    <body>
-        {{ msg }}
-
-    </body>
-
-</html>
+{% block body_block %}
+        <h1>{{ msg }}</h1>
+{% endblock %}
