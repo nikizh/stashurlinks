@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 class Tag(models.Model):
@@ -16,6 +17,7 @@ class Bookmark(models.Model):
     thumb = models.CharField(max_length=128)
     tags = models.ManyToManyField(Tag)
     owner = models.ForeignKey(User)
+    date_created = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return self.name
