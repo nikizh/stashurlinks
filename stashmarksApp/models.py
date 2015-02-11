@@ -20,4 +20,4 @@ class Bookmark(models.Model):
     date_created = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return self.name
+        return self.url
