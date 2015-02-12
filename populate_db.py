@@ -41,7 +41,7 @@ def populate_user_data(user, data):
         if created:
             date_created = datetime.datetime.now() + datetime.timedelta(days=-random.randint(0, 10), hours=-random.randint(0, 12))
             bookmark.date_created = date_created
-            
+
             for tag in tags:
                 bookmark.tags.add(tag)
 
