@@ -12,7 +12,7 @@ from stashmarksApp.models import Bookmark, Tag
 from populate_sample_data import SAMPLE_DATA
 from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
-
+from stashmarksProj.secret import FB_SECRET
 
 
 def populate():
@@ -26,8 +26,10 @@ def populate():
 def populate_auth_data():
     site = Site.objects.get_or_create(pk=2, domain='localhost', name='localhost')
 
-    app, created = SocialApp.objects.get_or_create(name="Facebook", provider="facebook", client_id="1592031764364189",
-                                   secret="4b2c1cbed5d1ac9b39711b9a83a16060");
+    app, created = SocialApp.objects.get_or_create(name="Facebook",
+                                                   provider="facebook",
+                                                   client_id="1592031764364189",
+                                                   secret=FB_SECRET);
     try:
         app.sites.add(2)
     except django.db.utils.IntegrityError:
