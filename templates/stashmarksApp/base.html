@@ -1,4 +1,6 @@
-<!DOCTYPE html> {% load staticfiles %}
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load socialaccount %}
 <html>
 
 <head>
@@ -24,11 +26,17 @@
                         src="{% static "images/logo.png" %}" height="32"/></a></div>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <a href="{% url 'signin' %}" class="btn btn-default navbar-btn navbar-right">Sign in</a>
+
+                {% if user.is_authenticated %}
+                    <a href='/accounts/logout' class="btn btn-default navbar-btn navbar-right">
+                        Hi, {{ user.username }} Logout</a>
+                {% else %}
+                    <a href="/accounts/login" class="btn btn-default navbar-btn navbar-right">Sign in</a>
+                {% endif %}
+
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'links' %}">Links</a></li>
                     <li><a href="{% url 'my_stash' %}">My Stash</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->

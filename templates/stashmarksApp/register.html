@@ -1,10 +1,15 @@
 {% extends 'stashmarksApp/base.html' %}
 {% load staticfiles %}
+{% load socialaccount %}
 
 {% block title %}{{ page_title }}{% endblock %}
 
 {% block body_block %}
 
     <h1>Register / Sign In</h1>
+    <ul>
+    <li><a href="{% provider_login_url "facebook" %}">Login with Facebook</a></li>
+    </ul>
+
     
 {% endblock %}
