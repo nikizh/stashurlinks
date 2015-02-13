@@ -24,11 +24,16 @@ def populate():
 
 
 def populate_auth_data():
-    site = Site.objects.create(pk=2, domain='localhost', name='localhost')
-    app = SocialApp(name="Facebook", provider="facebook", client_id="1592031764364189",
+    site = Site.objects.get_or_create(pk=2, domain='localhost', name='localhost')
+
+    app, created = SocialApp.objects.get_or_create(name="Facebook", provider="facebook", client_id="1592031764364189",
                                    secret="4b2c1cbed5d1ac9b39711b9a83a16060");
-    app.save()
-    app.sites.add(site)
+    try:
+        app.sites.add(2)
+    except django.db.utils.IntegrityError:
+        pass
+
+
 
 def populate_user_data(user, data):
     """
