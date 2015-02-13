@@ -10,14 +10,25 @@ import random
 from django.contrib.auth.models import User
 from stashmarksApp.models import Bookmark, Tag
 from populate_sample_data import SAMPLE_DATA
+from django.contrib.sites.models import Site
+from allauth.socialaccount.models import SocialApp
+
 
 
 def populate():
     users = create_users()
+    populate_auth_data()
 
     for i in range(0, 4):
         populate_user_data(users[i], SAMPLE_DATA[i])
 
+
+def populate_auth_data():
+    site = Site.objects.create(pk=2, domain='localhost', name='localhost')
+    app = SocialApp(name="Facebook", provider="facebook", client_id="1592031764364189",
+                                   secret="4b2c1cbed5d1ac9b39711b9a83a16060");
+    app.save()
+    app.sites.add(site)
 
 def populate_user_data(user, data):
     """
