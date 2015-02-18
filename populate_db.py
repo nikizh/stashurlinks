@@ -28,7 +28,7 @@ def populate_auth_data():
 
     app, created = SocialApp.objects.get_or_create(name="Facebook",
                                                    provider="facebook",
-                                                   client_id="1592031764364189",
+                                                   client_id="1539518306330552",
                                                    secret=FB_SECRET);
     try:
         app.sites.add(2)
