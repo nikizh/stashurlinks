@@ -13,6 +13,7 @@ from populate_sample_data import SAMPLE_DATA
 from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
 from stashmarksProj.secret import FB_SECRET
+from stashmarksProj.secret import G_SECRET
 
 
 def populate():
@@ -29,9 +30,18 @@ def populate_auth_data():
     app, created = SocialApp.objects.get_or_create(name="Facebook",
                                                    provider="facebook",
                                                    client_id="1539518306330552",
-                                                   secret=FB_SECRET);
+                                                   secret=FB_SECRET)
     try:
         app.sites.add(2)
+    except django.db.utils.IntegrityError:
+        pass
+
+    gapp, createdg = SocialApp.objects.get_or_create(name="Google",
+                                                   provider="google",
+                                                   client_id="373238987764-9pmm34toq7tqp6r1jlrhlpe7s5l9c3ae.apps.googleusercontent.com",
+                                                   secret=G_SECRET)
+    try:
+        gapp.sites.add(2)
     except django.db.utils.IntegrityError:
         pass
 
