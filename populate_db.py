@@ -68,7 +68,7 @@ def populate_user_data(user, data):
             date_created = datetime.datetime.now() + datetime.timedelta(days=-random.randint(0, 10), hours=-random.randint(0, 12))
             bookmark.date_created = date_created
 
-            tags = get_or_create_tags(value['tags'])
+            tags = get_or_create_tags(value['tags'], user)
 
             for tag in tags:
                 bookmark.tags.add(tag)
@@ -76,11 +76,11 @@ def populate_user_data(user, data):
             bookmark.save()
 
 
-def get_or_create_tags(tags):
+def get_or_create_tags(tags, user):
     tag_items = []
 
     for tag in tags:
-        tag_item, created = Tag.objects.get_or_create(name=tag)
+        tag_item, created = Tag.objects.get_or_create(name=tag, owner=user)
         tag_items.append(tag_item)
 
     return tag_items

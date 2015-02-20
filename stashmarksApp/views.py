@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import viewsets
+from stashmarksApp import models
+from stashmarksApp import serializers
+from rest_framework import permissions
 
 
 def index(request):
@@ -37,3 +42,21 @@ def links(request):
 def sign_out(request):
     context_dict = {}
     return render(request, 'stashmarksApp/links.html', context_dict)
+
+
+# REST API
+
+
+class TagsViewSet(viewsets.ModelViewSet):
+    queryset = models.Tag.objects.all()
+    serializer_class = serializers.TagSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+    def get_queryset(self):
+        user = self.request.user
+        return models.Tag.objects.filter(owner=user)

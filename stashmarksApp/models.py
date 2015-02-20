@@ -7,6 +7,8 @@ from django.utils.text import slugify
 class Tag(models.Model):
     name = models.CharField(max_length=25, unique=True)
     slug = models.SlugField(unique=True)
+    owner = models.ForeignKey(User)
+    date_created = models.DateTimeField(default=datetime.now)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
