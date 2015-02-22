@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from stashmarksApp import models
 from stashmarksApp import serializers
@@ -47,7 +46,7 @@ def sign_out(request):
 # REST API
 
 
-class TagsViewSet(viewsets.ModelViewSet):
+class MyTagsViewSet(viewsets.ModelViewSet):
     queryset = models.Tag.objects.all()
     serializer_class = serializers.TagSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -60,3 +59,10 @@ class TagsViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return models.Tag.objects.filter(owner=user)
+
+class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Tag.objects.all()
+    serializer_class = serializers.TagSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+

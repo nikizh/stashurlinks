@@ -3,7 +3,8 @@ from rest_framework import routers
 from stashmarksApp import views
 
 router = routers.DefaultRouter()
-router.register(r'tags', views.TagsViewSet)
+router.register(r'mytags', views.MyTagsViewSet)
+router.register(r'alltags', views.AllTagsViewSet)
 
 urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
