@@ -47,9 +47,10 @@ def sign_out(request):
 
 
 class MyTagsViewSet(viewsets.ModelViewSet):
-    queryset = models.Tag.objects.all()
+    queryset = models.Tag.objects.order_by('-date_created')
     serializer_class = serializers.TagSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    paginate_by = 10
 
 
     def perform_create(self, serializer):
@@ -60,9 +61,36 @@ class MyTagsViewSet(viewsets.ModelViewSet):
         user = self.request.user
         return models.Tag.objects.filter(owner=user)
 
+
 class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Tag.objects.all()
+    queryset = models.Tag.objects.order_by('-date_created')
     serializer_class = serializers.TagSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    paginate_by = 10
+
+
+class MyBookmarksViewSet(viewsets.ModelViewSet):
+    queryset = models.Bookmark.objects.order_by('-date_created')
+    serializer_class = serializers.BookmarkSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    paginate_by = 10
+
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+    def get_queryset(self):
+        user = self.request.user
+        return models.Bookmark.objects.filter(owner=user)
+
+
+class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Bookmark.objects.order_by('-date_created')
+    serializer_class = serializers.BookmarkSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    paginate_by = 10
+
+
 
 

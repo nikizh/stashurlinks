@@ -5,6 +5,8 @@ from stashmarksApp import views
 router = routers.DefaultRouter()
 router.register(r'mytags', views.MyTagsViewSet)
 router.register(r'alltags', views.AllTagsViewSet)
+router.register(r'mybookmarks', views.MyBookmarksViewSet)
+router.register(r'allbookmarks', views.AllBookmarksViewSet)
 
 urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
