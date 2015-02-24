@@ -4,8 +4,6 @@
 
 0. ### Install Requirements
 
-  From the root directory execute
-
   ```bash
   pip install -r requirements.txt
   ```

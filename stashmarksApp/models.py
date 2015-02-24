@@ -8,7 +8,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=25)
     slug = models.SlugField()
     owner = models.ForeignKey(User)
-    date_created = models.DateTimeField(default=datetime.now)
+    date_created = models.DateTimeField(default=datetime.utcnow)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

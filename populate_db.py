@@ -64,7 +64,8 @@ def populate_user_data(user, data):
             owner=user)
 
         if created:
-            date_created = datetime.datetime.now() + datetime.timedelta(days=-random.randint(0, 10), hours=-random.randint(0, 12))
+            date_created = datetime.datetime.utcnow() + datetime.timedelta(days=-random.randint(0, 10), hours=-random.randint(0, 12))
+
             bookmark.date_created = date_created
 
             tags = get_or_create_tags(value['tags'], user)
