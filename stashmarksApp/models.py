@@ -5,8 +5,8 @@ from django.utils.text import slugify
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=25, unique=True)
-    slug = models.SlugField(unique=True)
+    name = models.CharField(max_length=25)
+    slug = models.SlugField()
     owner = models.ForeignKey(User)
     date_created = models.DateTimeField(default=datetime.now)
 
@@ -16,6 +16,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        unique_together = ('name', 'slug', 'owner')
 
 
 class Bookmark(models.Model):

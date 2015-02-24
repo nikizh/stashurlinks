@@ -37,14 +37,13 @@ def populate_auth_data():
         pass
 
     gapp, createdg = SocialApp.objects.get_or_create(name="Google",
-                                                   provider="google",
-                                                   client_id="373238987764-9pmm34toq7tqp6r1jlrhlpe7s5l9c3ae.apps.googleusercontent.com",
-                                                   secret=G_SECRET)
+                                                     provider="google",
+                                                     client_id="373238987764-9pmm34toq7tqp6r1jlrhlpe7s5l9c3ae.apps.googleusercontent.com",
+                                                     secret=G_SECRET)
     try:
         gapp.sites.add(2)
     except django.db.utils.IntegrityError:
         pass
-
 
 
 def populate_user_data(user, data):
