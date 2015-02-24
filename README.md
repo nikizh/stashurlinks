@@ -1,9 +1,26 @@
 # Project Codename *"stashURLinks"*
 
-To start working on the project
+## Getting Started
 
-1. Create new file `stashmarksProj\secret.py` based on `stashmarksProj\secret.py.fake` and change the `SECRET_KEY`
+0. ### Install Requirements
 
-2. Run `./manage.py migrate`
+  From the root directory execute
 
-3. Run `./populate_db.py`
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+1. ### Create `secret.py` file
+
+  Copy `stashmarksProj\secret.py.fake` to  `stashmarksProj\secret.py` and set the secret keys
+
+2. ### Update the database
+
+  ```bash
+  python manage.py migrate
+  ```
+
+3. ### Populate data
+  ```
+  python populate_db.py
+  ```
