@@ -13,7 +13,8 @@
                 <h1>Register</h1>
 
                 <p>
-                    {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+                    {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>
+                        .{% endblocktrans %}
                 </p>
             </div>
         </div>
@@ -42,11 +43,28 @@
 
                 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    <div class="form-group">
+                        <label for="id_username">Username</label>
+                        <input name="username" type="text" class="form-control" id="id_username" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_email">Email address</label>
+                        <input name="email" type="email" class="form-control" id="id_email" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password">Password</label>
+                        <input name="password" type="password" class="form-control" id="id_password"
+                               placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password2">Password (again)</label>
+                        <input name="password2" type="password" class="form-control" id="id_password2"
+                               placeholder="Password">
+                    </div>
                     {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                     {% endif %}
-                    <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+                    <button type="submit" class="btn btn-success btn-block">{% trans "Sign Up" %}</button>
                 </form>
             </div>
         </div>

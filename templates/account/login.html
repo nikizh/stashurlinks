@@ -12,7 +12,6 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Sign In</h1>
-
             </div>
         </div>
         <div class="row">
@@ -37,12 +36,26 @@
             <div class="col-md-6">
                 <form class="login" method="POST" action="{% url 'account_login' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    <div class="form-group">
+                        <label for="id_username">Username</label>
+                        <input name="login" type="text" class="form-control" id="id_username" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password">Password</label>
+                        <input name="password" type="password" class="form-control" id="id_password"
+                               placeholder="Password">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="remember" id="id_remember" type="checkbox"> Remember me
+                        </label>
+                    </div>
                     {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                     {% endif %}
-                    <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
+                    <button type="submit" class="btn btn-success btn-block">{% trans "Sign In" %}</button>
                 </form>
+
             </div>
         </div>
     </div>
