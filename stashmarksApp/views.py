@@ -1,8 +1,6 @@
 from django.shortcuts import render
-from rest_framework import viewsets
-from stashmarksApp import models
-from stashmarksApp import serializers
-from rest_framework import permissions
+from rest_framework import viewsets, permissions
+from stashmarksApp import models, serializers
 
 
 def index(request):
@@ -52,10 +50,8 @@ class MyTagsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     paginate_by = 10
 
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
 
     def get_queryset(self):
         user = self.request.user
@@ -75,10 +71,8 @@ class MyBookmarksViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     paginate_by = 10
 
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
 
     def get_queryset(self):
         user = self.request.user
