@@ -24,14 +24,15 @@
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <button type="button" class="btn btn-default"
-                                        ng-click="changeSearchOption('Search Tags')">Search Tags
-                                </button>
+                                <a role="menuitem"
+                                   ng-click="changeSearchOption('Search Tags')">Search Tags
+                                </a>
                             </li>
+                            <li role="presentation" class="divider"></li>
                             <li>
-                                <button type="button" class="btn btn-default"
-                                        ng-click="changeSearchOption('Search Text')">Search Text
-                                </button>
+                                <a role="menuitem"
+                                   ng-click="changeSearchOption('Search Text')">Search Text
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -46,16 +47,17 @@
                  infinite-scroll-distance="1">
                 <div class="col-md-4" ng-repeat="link in links">
                     <div class="panel panel-default">
-                        <div class="panel-heading"><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></div>
-                    <div class="panel-body">
-                        <a class="thumbnail" href="{{ link.url }}">
-                            <img src="/media/thumbs/{{ link.thumb }}"/>
-                        </a>
+                        <div class="panel-heading"><a href="{{ link.url }}"
+                                                      title="{{ link.title }}">{{ link.title }}</a></div>
+                        <div class="panel-body">
+                            <a class="thumbnail" href="{{ link.url }}">
+                                <img src="/media/thumbs/{{ link.thumb }}"/>
+                            </a>
 
-                        <div>
-                            <span class="label label-default" ng-repeat="tag in link.tags">{{ tag.name }}</span>
+                            <div>
+                                <span class="label label-default" ng-repeat="tag in link.tags">{{ tag.name }}</span>
+                            </div>
                         </div>
-                    </div>
                     </div>
 
 
