@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions
 from stashmarksApp import models, serializers
 
 
 def index(request):
-    context_dict = {'msg': "Hello"}
+    context_dict = {}
+
+    if request.user.is_authenticated():
+        return redirect('my_stash')
+
     return render(request, 'stashmarksApp/index.html', context_dict)
 
 
@@ -83,7 +87,3 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
             return models.Bookmark.objects.filter(public=True, tags__in=tagsid)
         else:
             return models.Bookmark.objects.filter(public=True)
-
-
-
-
