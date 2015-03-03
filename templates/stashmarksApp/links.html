@@ -35,20 +35,18 @@
                             </li>
                         </ul>
                     </div>
-                    <div>
                         <tags-input add-from-autocomplete-only="true" min-length="2" display-property="name"
                                     ng-model="tags">
                             <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
                         </tags-input>
-                    </div>
 
                 </div>
             </div>
             <div class="row" infinite-scroll="pollAllLinks()" infinite-scroll-disabled='busy'
                  infinite-scroll-distance="1">
-                <div
-                        class="col-md-6 panel panel-primary" ng-repeat="link in links">
-                    <div class="panel-heading">{{ link.title }}</div>
+                <div class="col-md-4" ng-repeat="link in links">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></div>
                     <div class="panel-body">
                         <a class="thumbnail" href="{{ link.url }}">
                             <img src="/media/thumbs/{{ link.thumb }}"/>
@@ -58,6 +56,8 @@
                             <span class="label label-default" ng-repeat="tag in link.tags">{{ tag.name }}</span>
                         </div>
                     </div>
+                    </div>
+
 
                 </div>
             </div>

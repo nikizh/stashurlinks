@@ -83,3 +83,9 @@ body {
 .footer {
   height: 60px;
 }
+
+.panel-heading {
+    overflow: auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
