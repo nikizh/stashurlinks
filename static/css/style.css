@@ -57,6 +57,10 @@ body {
     margin-bottom: 10px;
 }
 
+.landing-container-bottom0 {
+    padding-bottom: 0px;
+}
+
 .landing-feature {
     color: #444;
     font-size: 18px;
