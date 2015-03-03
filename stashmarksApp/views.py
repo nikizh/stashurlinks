@@ -56,7 +56,7 @@ class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         if("q" in self.request.query_params):
             query = self.request.query_params["q"]
-            return models.Tag.objects.filter(name__startswith=query)
+            return models.Tag.objects.filter(name__startswith=query).distinct()
         else:
             return models.Tag.objects.order_by('-date_created')
 
@@ -82,11 +82,11 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
     paginate_by = 6
 
     def get_queryset(self):
-        if("tagid" in self.request.query_params):
-            tagsid = self.request.query_params["tagid"].split(",")
-            return models.Bookmark.objects.filter(public=True, tags__in=tagsid)
+        if("tags" in self.request.query_params):
+            tags = self.request.query_params["tags"].split(",")
+            return models.Bookmark.objects.filter(public=True, tags__name__in=tags)
         elif("q" in self.request.query_params):
             query = self.request.query_params["q"]
-            return models.Bookmark.objects.filter(title__startswith=query)
+            return models.Bookmark.objects.filter(public=True, title__contains=query)
         else:
-            return models.Bookmark.objects.filter(public=True)
+            return models.Bookmark.objects.filter(public=True).order_by('-date_created')

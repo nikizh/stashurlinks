@@ -24,22 +24,23 @@
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a role="menuitem"
+                                <a href="javascript:void(0)" role="menuitem"
                                    ng-click="changeSearchOption('Search Tags')">Search Tags
                                 </a>
                             </li>
                             <li role="presentation" class="divider"></li>
                             <li>
-                                <a role="menuitem"
+                                <a href="javascript:void(0)" role="menuitem"
                                    ng-click="changeSearchOption('Search Text')">Search Text
                                 </a>
                             </li>
                         </ul>
                     </div>
-                    <tags-input add-from-autocomplete-only="true" min-length="2" display-property="name"
+                    <tags-input ng-if="searchOption === 'Search Tags'" add-from-autocomplete-only="true" min-length="2" display-property="name"
                                 ng-model="tags">
                         <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
                     </tags-input>
+                    <input ng-if="searchOption === 'Search Text'" type="text" class="form-control" ng-model="searchQuery.q" />
 
                 </div>
             </div>

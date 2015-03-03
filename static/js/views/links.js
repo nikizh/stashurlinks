@@ -8,18 +8,18 @@ app.controller("LinksListController", ['$scope', '$http',
         $scope.searchOption = "Search Tags";
         $scope.searchMode = false;
         $scope.tags = [];
-        $scope.searchQuery = "";
+        $scope.searchQuery = {q: ""};
         $scope.pollAllLinks = function () {
             $scope.busy = true;
             if ($scope.searchMode) {
-                if ($scope.tags.length > 0) {
-                    tagIds = jQuery.map($scope.tags, function (t, i) {
-                        return ( t.id );
+                if ($scope.tags.length > 0 && $scope.searchOption === "Search Tags") {
+                    tagNames = jQuery.map($scope.tags, function (t, i) {
+                        return ( t.name );
                     });
-                    var queryUrl = "api/allbookmarks/?format=json&tagid=" + tagIds.toString();
+                    var queryUrl = "api/allbookmarks/?format=json&tags=" + tagNames.toString();
                 }
-                else if ($scope.searchQuery) {
-                    var queryUrl = "api/allbookmarks/?format=json&q=" + $scope.searchQuery;
+                else if ($scope.searchQuery.q && $scope.searchOption === "Search Text") {
+                    var queryUrl = "api/allbookmarks/?format=json&q=" + $scope.searchQuery.q;
                 }
             }
             else
@@ -54,15 +54,15 @@ app.controller("LinksListController", ['$scope', '$http',
         $scope.search = function () {
             $scope.nextPage = "";
             $scope.links = [];
-            if ($scope.tags.length > 0) {
-                if ($scope.searchOption === "Search Tags") {
-                    $scope.links = [];
-                    $scope.searchMode = true;
-                    $scope.pollAllLinks();
-                }
+            if ($scope.tags.length > 0 && $scope.searchOption === "Search Tags") {
+                $scope.links = [];
+                $scope.searchMode = true;
+                $scope.pollAllLinks();
             }
-            else if ($scope.searchQuery) {
-
+            else if ($scope.searchQuery.q && $scope.searchOption === "Search Text") {
+                $scope.links = [];
+                $scope.searchMode = true;
+                $scope.pollAllLinks();
             }
             else {
                 $scope.searchMode = false;
