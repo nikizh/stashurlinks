@@ -12,3 +12,8 @@ body {
     background-color: rgba(248, 248, 248, 0.9);
     border-bottom: 2px solid #EBEBEB;
 }
+
+.navbar-reg {
+    height: 50px;
+    padding: 9px 9px;
+}
