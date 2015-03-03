@@ -24,14 +24,15 @@
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <button type="button" class="btn btn-default"
-                                        ng-click="changeSearchOption('Search Tags')">Search Tags
-                                </button>
+                                <a role="menuitem"
+                                   ng-click="changeSearchOption('Search Tags')">Search Tags
+                                </a>
                             </li>
+                            <li role="presentation" class="divider"></li>
                             <li>
-                                <button type="button" class="btn btn-default"
-                                        ng-click="changeSearchOption('Search Text')">Search Text
-                                </button>
+                                <a role="menuitem"
+                                   ng-click="changeSearchOption('Search Text')">Search Text
+                                </a>
                             </li>
                         </ul>
                     </div>
