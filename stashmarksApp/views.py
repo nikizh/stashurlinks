@@ -69,7 +69,7 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Bookmark.objects.order_by('-date_created')
     serializer_class = serializers.BookmarkSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    paginate_by = 10
+    paginate_by = 6
 
     def get_queryset(self):
         return models.Bookmark.objects.filter(public=True)

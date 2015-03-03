@@ -8,12 +8,13 @@
     {% angularjs %}
 
         <div class="container" ng-app="LinksList" ng-controller="LinksListController">
-            <div class="row">
+            <div infinite-scroll="pollAllLinks()" infinite-scroll-disabled='busy' infinite-scroll-distance="1" class="row">
                 <div class="col-md-12">
                     <h1>Links</h1>
 
                 </div>
-                <div class="col-md-6 panel panel-primary" ng-repeat="link in links">
+                <div
+                     class="col-md-6 panel panel-primary" ng-repeat="link in links">
                     <div class="panel-heading">{{ link.title }}</div>
                     <div class="panel-body">
                         <a class="thumbnail" href="{{ link.url }}">
