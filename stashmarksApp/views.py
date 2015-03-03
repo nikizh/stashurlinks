@@ -85,5 +85,8 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
         if("tagid" in self.request.query_params):
             tagsid = self.request.query_params["tagid"].split(",")
             return models.Bookmark.objects.filter(public=True, tags__in=tagsid)
+        elif("q" in self.request.query_params):
+            query = self.request.query_params["q"]
+            return models.Bookmark.objects.filter(title__startswith=query)
         else:
             return models.Bookmark.objects.filter(public=True)

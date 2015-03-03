@@ -35,14 +35,15 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- /btn-group -->
-                    <tags-input display-property="name" ng-model="tags">
-                        <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
-                    </tags-input>
+                    <div>
+                        <tags-input add-from-autocomplete-only="true" min-length="2" display-property="name"
+                                    ng-model="tags">
+                            <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
+                        </tags-input>
+                    </div>
+
                 </div>
-                <!-- /input-group -->
             </div>
-            <!-- /.col-lg-6 -->
             <div class="row" infinite-scroll="pollAllLinks()" infinite-scroll-disabled='busy'
                  infinite-scroll-distance="1">
                 <div

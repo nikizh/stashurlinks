@@ -8,16 +8,24 @@ app.controller("LinksListController", ['$scope', '$http',
         $scope.searchOption = "Search Tags";
         $scope.searchMode = false;
         $scope.tags = [];
+        $scope.searchQuery = "";
         $scope.pollAllLinks = function () {
             $scope.busy = true;
             if ($scope.searchMode) {
-                tagIds = jQuery.map($scope.tags, function (t, i) {
-                    return ( t.id );
-                });
-                var requestUrl = $scope.nextPage == "" ? baseUrl + "api/allbookmarks/?format=json&tagid=" + tagIds.toString() : $scope.nextPage;
+                if ($scope.tags.length > 0) {
+                    tagIds = jQuery.map($scope.tags, function (t, i) {
+                        return ( t.id );
+                    });
+                    var queryUrl = "api/allbookmarks/?format=json&tagid=" + tagIds.toString();
+                }
+                else if ($scope.searchQuery) {
+                    var queryUrl = "api/allbookmarks/?format=json&q=" + $scope.searchQuery;
+                }
             }
             else
-                var requestUrl = $scope.nextPage == "" ? baseUrl + "api/allbookmarks/?format=json" : $scope.nextPage;
+                var queryUrl = "api/allbookmarks/?format=json"
+
+            var requestUrl = $scope.nextPage == "" ? baseUrl + queryUrl : $scope.nextPage;
 
             if ($scope.nextPage != null) {
                 $http
@@ -52,6 +60,9 @@ app.controller("LinksListController", ['$scope', '$http',
                     $scope.searchMode = true;
                     $scope.pollAllLinks();
                 }
+            }
+            else if ($scope.searchQuery) {
+
             }
             else {
                 $scope.searchMode = false;
