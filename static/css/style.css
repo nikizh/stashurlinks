@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,700);
+
 body {
     padding-top: 70px;
 }
@@ -16,4 +18,64 @@ body {
 .navbar-reg {
     height: 50px;
     padding: 9px 9px;
+}
+
+.landing-header h1 {
+    color: #444;
+    font-size: 36px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}
+
+.landing-header h2 {
+    color: #777;
+    font-size: 20px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}
+
+.btn-xlarge {
+    padding: 20px 30px;
+    font-size: 18px;
+    line-height: normal;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.marketing-block {
+    margin-top: 140px;
+}
+
+.landing-container-top-space {
+    padding-top: 40px;
+}
+
+.landing-container-border {
+    padding-bottom: 50px;
+    border-bottom: 1px solid #AAA;
+    margin-bottom: 10px;
+}
+
+.landing-feature {
+    color: #444;
+    font-size: 18px;
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+}
+
+.landing-feature h2 {
+    color: #444;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.landing-feature h3 {
+    color: #444;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.footer {
+  height: 60px;
 }
