@@ -6,13 +6,53 @@
 
 {% block body_block %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>{{ msg }}</h1>
-                <a href="/accounts/signup/" class="btn btn-success btn-lg">Register</a>
+    <div class="container-fluid landing-container-border">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 landing-header">
+                    <div class="marketing-block">
+                        <h1>
+                            Free bookmarking for <u>everyone</u>.
+                        </h1>
+
+                        <h2>
+                            Other marketing text here goes here, bla bah blah!
+                        </h2>
+                        <a href="/accounts/signup/" class="btn btn-success btn-xlarge">Register now, it's free!</a>
+                    </div>
+                </div>
+                <div class="col-md-7 text-center">
+                    <img src="{% static 'images/placeholder-400-400.png' %}">
+                </div>
             </div>
         </div>
     </div>
 
+
+    <div class="container-fluid landing-container-border landing-container-top-space">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 landing-feature">
+                    <img src="{% static 'images/placeholder-250-160.png' %}" alt="Cool Feature 1" class="img-rounded" />
+                    <h2>Cool feature 1</h2>
+                    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+                </div>
+                <div class="col-md-3 landing-feature">
+                    <img src="{% static 'images/placeholder-250-160.png' %}" alt="Cool Feature 2" class="img-rounded" />
+                    <h2>Cool feature 2</h2>
+                    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+                </div>
+                <div class="col-md-3 landing-feature">
+                    <img src="{% static 'images/placeholder-250-160.png' %}" alt="Cool Feature 3" class="img-rounded" />
+                    <h2>Cool feature 3</h2>
+                    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+                </div>
+                <div class="col-md-3 landing-feature">
+                    <img src="{% static 'images/placeholder-250-160.png' %}" alt="Cool Feature 4" class="img-rounded" />
+                    <h2>Cool feature 4</h2>
+                    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
