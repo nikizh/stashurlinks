@@ -20,7 +20,7 @@ def my_stash_add(request):
 
 
 def links(request):
-    context_dict = {}
+    context_dict = {'test1': "Hello"}
     return render(request, 'stashmarksApp/links.html', context_dict)
 
 
@@ -70,6 +70,9 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.BookmarkSerializer
     permission_classes = (permissions.IsAuthenticated,)
     paginate_by = 10
+
+    def get_queryset(self):
+        return models.Bookmark.objects.filter(public=True)
 
 
 

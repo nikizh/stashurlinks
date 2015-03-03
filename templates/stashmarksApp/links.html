@@ -1,14 +1,31 @@
 {% extends 'stashmarksApp/base.html' %}
 {% load staticfiles %}
+{% load djangular_tags %}
 
 {% block title %}Links{% endblock %}
 
 {% block body_block %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Links</h1>
+    {% angularjs %}
+
+        <div class="container" ng-app="LinksList" ng-controller="LinksListController">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Links</h1>
+
+                </div>
+                <div class="col-md-6 panel panel-primary" ng-repeat="link in links">
+                    <div class="panel-heading">{{ link.title }}</div>
+                    <div class="panel-body">
+                        <a class="thumbnail" href="{{ link.url }}">
+                            <img src="/media/thumbs/{{ link.thumb }}"/>
+                        </a>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
+
+    {% endangularjs %}
+
+    <script src='{% static "js/views/links.js" %}'></script>
 {% endblock %}
