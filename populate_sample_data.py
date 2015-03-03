@@ -1,7 +1,7 @@
 SAMPLE_DATA = [{'01ed8c9': {'is_public': False,
               'tags': ['Swift', 'iOS'],
               'thumb': '01ed8c9.png',
-              'title': 'Introducing iOS Design Patterns in Swift –\xa0Part '
+              'title': 'Introducing iOS Design Patterns in Swift – Part '
                        '2/2 - Ray Wenderlich',
               'url': 'http://www.raywenderlich.com/90773/introducing-ios-design-patterns-in-swift-part-2'},
   '06743cb': {'is_public': False,
@@ -95,7 +95,7 @@ SAMPLE_DATA = [{'01ed8c9': {'is_public': False,
   '478358b': {'is_public': False,
               'tags': ['Swift', 'iOS'],
               'thumb': '478358b.png',
-              'title': 'Introducing iOS Design Patterns in Swift –\xa0Part '
+              'title': 'Introducing iOS Design Patterns in Swift – Part '
                        '1/2 - Ray Wenderlich',
               'url': 'http://www.raywenderlich.com/86477/introducing-ios-design-patterns-in-swift-part-1'},
   '50db3e4': {'is_public': False,
