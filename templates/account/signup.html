@@ -21,25 +21,28 @@
         <div class="row">
             <div class="col-md-6">
                 <h2>Sign in with social account</h2>
-                {% for provider in socialaccount.providers %}
-                    {% if provider.id == "facebook" %}
-                        <a title="{{ provider.name }}" class="btn btn-block btn-social btn-lg btn-facebook"
-                           href="{% provider_login_url provider.id process='login' scope=scope auth_params=auth_params %}"
-                           onclick="_gaq.push(['_trackEvent', 'btn-social', 'click', 'btn-lg']);">
-                            <i class="fa fa-facebook"></i>Sign in with Facebook
-                        </a>
-                    {% elif provider.id == "google" %}
-                        <a title="{{ provider.name }}" class="btn btn-block btn-social btn-lg btn-google-plus"
-                           href="{% provider_login_url provider.id process='login' scope=scope auth_params=auth_params %}"
-                           onclick="_gaq.push(['_trackEvent', 'btn-social', 'click', 'btn-lg']);">
-                            <i class="fa fa-google-plus"></i>Sign in with Google
-                        </a>
-                    {% endif %}
-                {% endfor %}
-                {% include "socialaccount/snippets/login_extra.html" %}
+
+                <div class="social-login">
+                    {% for provider in socialaccount.providers %}
+                        {% if provider.id == "facebook" %}
+                            <a title="{{ provider.name }}" class="btn btn-block btn-social btn-lg btn-facebook"
+                               href="{% provider_login_url provider.id process='login' scope=scope auth_params=auth_params %}"
+                               onclick="_gaq.push(['_trackEvent', 'btn-social', 'click', 'btn-lg']);">
+                                <i class="fa fa-facebook"></i>Sign in with Facebook
+                            </a>
+                        {% elif provider.id == "google" %}
+                            <a title="{{ provider.name }}" class="btn btn-block btn-social btn-lg btn-google-plus"
+                               href="{% provider_login_url provider.id process='login' scope=scope auth_params=auth_params %}"
+                               onclick="_gaq.push(['_trackEvent', 'btn-social', 'click', 'btn-lg']);">
+                                <i class="fa fa-google-plus"></i>Sign in with Google
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                    {% include "socialaccount/snippets/login_extra.html" %}
+                </div>
             </div>
             <div class="col-md-6">
-                <h2>or register with e-mail</h2>
+                <h2>or Register with e-mail</h2>
 
                 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                     {% csrf_token %}
