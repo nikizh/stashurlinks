@@ -48,7 +48,13 @@ class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Tag.objects.order_by('-date_created')
     serializer_class = serializers.TagSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    paginate_by = 10
+
+    def get_queryset(self):
+        if("q" in self.request.query_params):
+            query = self.request.query_params["q"]
+            return models.Tag.objects.filter(name__startswith=query)
+        else:
+            return models.Tag.objects.order_by('-date_created')
 
 
 class MyBookmarksViewSet(viewsets.ModelViewSet):
@@ -72,7 +78,11 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
     paginate_by = 6
 
     def get_queryset(self):
-        return models.Bookmark.objects.filter(public=True)
+        if("tagid" in self.request.query_params):
+            tagsid = self.request.query_params["tagid"].split(",")
+            return models.Bookmark.objects.filter(public=True, tags__in=tagsid)
+        else:
+            return models.Bookmark.objects.filter(public=True)
 
 
 

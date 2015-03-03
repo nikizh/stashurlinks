@@ -10,7 +10,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class BookmarkSerializer(serializers.ModelSerializer):
-    tags = PrimaryKeyRelatedField(many=True, queryset=models.Tag.objects.all(), allow_null=True)
+    tags = TagSerializer(many=True, allow_null=True)
 
     class Meta:
         model = models.Bookmark
