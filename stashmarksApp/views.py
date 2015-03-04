@@ -1,10 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions
-from rest_framework.views import APIView
 from stashmarksApp import models, serializers
 from django.contrib.auth.decorators import login_required
-from rest_framework.response import Response
-from rest_framework import status
 
 
 def index(request):
@@ -41,33 +38,17 @@ def settings(request):
 
 
 # REST API
-class MyTagsViewSet(viewsets.ModelViewSet):
-    queryset = models.Tag.objects.order_by('-date_created')
+class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Tag.objects.all()
     serializer_class = serializers.TagSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    paginate_by = 10
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
 
     def get_queryset(self):
-        user = self.request.user
-        return models.Tag.objects.filter(owner=user)
-
-
-class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Tag.objects.order_by('-date_created')
-    serializer_class = serializers.TagSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-
-class SearchTagsView(APIView):
-
-    def get(self, request, *args, **kw):
-        query = request.query_params["q"]
-        result = models.Tag.objects.filter(name__startswith=query).values_list('name', flat=True).distinct()
-        serializedResult = [{'name':x} for x in result]
-        return Response(serializedResult, status=status.HTTP_200_OK)
+        if "q" in self.request.query_params:
+            query = self.request.query_params["q"]
+            return models.Tag.objects.filter(name__startswith=query).distinct()
+        else:
+            return models.Tag.objects.all()
 
 
 class MyBookmarksViewSet(viewsets.ModelViewSet):

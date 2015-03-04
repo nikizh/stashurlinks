@@ -6,7 +6,7 @@ from rest_framework import serializers
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Tag
-        fields = ('id', 'name', 'date_created')
+        fields = ('name',)
 
 
 class BookmarkSerializer(serializers.ModelSerializer):
