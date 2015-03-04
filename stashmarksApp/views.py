@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions
 from stashmarksApp import models, serializers
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -12,25 +13,28 @@ def index(request):
     return render(request, 'stashmarksApp/index.html', context_dict)
 
 
-# Restricted API
+@login_required
 def my_stash(request):
     context_dict = {}
     return render(request, 'stashmarksApp/my_stash.html', context_dict)
 
 
+@login_required
 def my_stash_add(request):
     context_dict = {}
     return render(request, 'stashmarksApp/my_stash_add.html', context_dict)
 
 
+@login_required
 def links(request):
-    context_dict = {'test1': "Hello"}
-    return render(request, 'stashmarksApp/links.html', context_dict)
-
-
-def sign_out(request):
     context_dict = {}
     return render(request, 'stashmarksApp/links.html', context_dict)
+
+
+@login_required
+def settings(request):
+    context_dict = {}
+    return render(request, 'stashmarksApp/settings.html', context_dict)
 
 
 # REST API
@@ -54,7 +58,7 @@ class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        if("q" in self.request.query_params):
+        if "q" in self.request.query_params:
             query = self.request.query_params["q"]
             return models.Tag.objects.filter(name__startswith=query).distinct()
         else:
@@ -82,10 +86,10 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
     paginate_by = 6
 
     def get_queryset(self):
-        if("tags" in self.request.query_params):
+        if "tags" in self.request.query_params:
             tags = self.request.query_params["tags"].split(",")
             return models.Bookmark.objects.filter(public=True, tags__name__in=tags)
-        elif("q" in self.request.query_params):
+        elif "q" in self.request.query_params:
             query = self.request.query_params["q"]
             return models.Bookmark.objects.filter(public=True, title__contains=query)
         else:

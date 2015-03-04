@@ -1,0 +1,22 @@
+{% extends 'stashmarksApp/base.html' %}
+{% load staticfiles %}{% load gravatar %}
+
+{% block title %}Account Settings{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Account Settings</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{% gravatar_url user.email 150 %}" class="img-circle"/>
+            </div>
+            <div class="col-md-10">
+                <h2>{{ user.username }}</h2>
+            </div>
+        </div>
+    </div>
+{% endblock %}

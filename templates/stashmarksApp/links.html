@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load djangular_tags %}
 
-{% block title %}Links{% endblock %}
+{% block title %}Latest Links{% endblock %}
 
 {% block body_block %}
     {% angularjs %}
@@ -10,39 +10,52 @@
         <div class="container" ng-app="LinksList" ng-controller="LinksListController">
 
             <div class="row">
-                <h1>Links</h1>
-
+                <div class="col-md-12 text-center">
+                    <h1>Latest Links</h1>
+                </div>
             </div>
+
             <div class="row">
-                <div class="col-md-12 input-group">
-                    <div class="input-group-btn">
-                        <button type="button" ng-click="search()" class="btn btn-default">{{ searchOption }}</button>
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="javascript:void(0)" role="menuitem"
-                                   ng-click="changeSearchOption('Search Tags')">Search Tags
-                                </a>
-                            </li>
-                            <li role="presentation" class="divider"></li>
-                            <li>
-                                <a href="javascript:void(0)" role="menuitem"
-                                   ng-click="changeSearchOption('Search Text')">Search Text
-                                </a>
-                            </li>
-                        </ul>
+                <div class="col-md-2">&nbsp;</div>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="button" ng-click="search()"
+                                    class="btn btn-default">{{ searchOption }}</button>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="javascript:void(0)" role="menuitem"
+                                       ng-click="changeSearchOption('Search Tags')">Search Tags
+                                    </a>
+                                </li>
+                                <li role="presentation" class="divider"></li>
+                                <li>
+                                    <a href="javascript:void(0)" role="menuitem"
+                                       ng-click="changeSearchOption('Search Text')">Search Text
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <tags-input ng-if="searchOption === 'Search Tags'" add-from-autocomplete-only="true"
+                                    min-length="2"
+                                    display-property="name"
+                                    ng-model="tags">
+                            <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
+                        </tags-input>
+                        <div class="search-box">
+                            <input ng-if="searchOption === 'Search Text'" type="text" class="form-control"
+                                   placeholder="Search"
+                                   ng-model="searchQuery.q"/>
+                        </div>
                     </div>
-                    <tags-input ng-if="searchOption === 'Search Tags'" add-from-autocomplete-only="true" min-length="2" display-property="name"
-                                ng-model="tags">
-                        <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
-                    </tags-input>
-                    <input ng-if="searchOption === 'Search Text'" type="text" class="form-control" ng-model="searchQuery.q" />
 
                 </div>
+                <div class="col-md-2">&nbsp;</div>
             </div>
             <div class="row" infinite-scroll="pollAllLinks()" infinite-scroll-disabled='busy'
                  infinite-scroll-distance="1">
