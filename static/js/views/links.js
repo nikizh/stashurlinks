@@ -71,7 +71,7 @@ app.controller("LinksListController", ['$scope', '$http',
 
         }
         $scope.loadTags = function (query) {
-            return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
+            return $http.get(baseUrl + "api/searchTags/?format=json&q=" + query);
         }
 
         $scope.pollAllLinks();
