@@ -119,6 +119,11 @@ h1, h2, h3, h4, h5, h6 {
     height: 32px;
 }
 
+.profile-img-settings {
+    width: 150px;
+    height: 150px;
+}
+
 /* Overrides */
 .panel-heading {
     overflow: hidden;
