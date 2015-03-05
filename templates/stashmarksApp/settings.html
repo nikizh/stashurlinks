@@ -1,5 +1,5 @@
 {% extends 'stashmarksApp/base.html' %}
-{% load staticfiles %}{% load gravatar %}
+{% load staticfiles %}{% load socialaccount %}{% load gravatar %}
 
 {% block title %}Account Settings{% endblock %}
 
@@ -16,6 +16,61 @@
             </div>
             <div class="col-md-10">
                 <h2>{{ user.username }}</h2>
+
+                {% get_social_accounts user as accounts %}
+
+                {% if accounts %}
+
+                    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+
+                {% else %}
+                    <form method="POST" action="/settings/">
+                        {% csrf_token %}
+                        <h4>Change password</h4>
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Error</strong> The password was not changed. <br/>
+                                {% for error in form.non_field_errors %}
+                                    <strong>{{ error|escape }}</strong><br/>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% for field in form %}
+
+                            {% if field.name == 'oldpassword' %}
+                                <div class="form-group">
+                                    <label for="password0">Old password</label>
+                                    <input name="oldpassword" type="password" class="form-control" id="password0"
+                                           placeholder="Password">
+                                </div>
+                            {% elif field.name == 'password1' %}
+                                <div class="form-group">
+                                    <label for="password1">New password</label>
+                                    <input name="password1" type="password" class="form-control" id="password1"
+                                           placeholder="Password">
+                                </div>
+                            {% elif field.name == 'password2' %}
+                                <div class="form-group">
+                                    <label for="password2">New password (repeat)</label>
+                                    <input name="password2" type="password" class="form-control" id="password2"
+                                           placeholder="Password">
+                                </div>
+                            {% endif %}
+
+                            {% if field.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {% for error in field.errors %}
+                                        <strong>{{ error|escape }}</strong><br/>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-default">Change Password</button>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </div>

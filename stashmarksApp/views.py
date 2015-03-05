@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions
 from stashmarksApp import models, serializers
 from django.contrib.auth.decorators import login_required
+from allauth.account.forms import ChangePasswordForm
 
 
 def index(request):
@@ -34,6 +35,20 @@ def links(request):
 @login_required
 def settings(request):
     context_dict = {}
+
+    if request.method == 'POST':
+        form = ChangePasswordForm(user=request.user, data=request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('account_login')
+        else:
+            context_dict['error'] = True
+    else:
+        form = ChangePasswordForm(user=request.user)
+
+    context_dict['form'] = form
+
     return render(request, 'stashmarksApp/settings.html', context_dict)
 
 
