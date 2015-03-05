@@ -1,4 +1,3 @@
-from rest_framework.relations import PrimaryKeyRelatedField
 from stashmarksApp import models
 from rest_framework import serializers
 
