@@ -21,8 +21,8 @@ class BookmarkSerializer(serializers.ModelSerializer):
         instance.save()
         tags = validated_data.get('tags', instance.tags)
         for i in range(len(tags)):
-            instance.tags.add(models.Tag.objects.get_or_create(name=tags[i]["name"]))
-
+            current, success = models.Tag.objects.get_or_create(name=tags[i]["name"])
+            instance.tags.add(current)
 
         return instance
 
