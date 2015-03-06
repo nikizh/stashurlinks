@@ -156,3 +156,9 @@ tags-input .tags .tag-item {
 tags-input .tags .tag-item.selected {
     background: #e74c3c;
 }
+.thumbnail {
+  border-color: transparent;
+}
+.thumbnail.active, a.thumbnail:focus, a.thumbnail:hover {
+  border-color: transparent;
+}
