@@ -71,7 +71,8 @@
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                             <li ng-repeat="option in visibilityOptions" role="presentation">
-                                <a role="menuitem" ng-click="changeVisibilityOption(option)" tabindex="-1" href="javascript:void(0)">
+                                <a role="menuitem" ng-click="changeVisibilityOption(option)" tabindex="-1"
+                                   href="javascript:void(0)">
                                     {{ option.name }}</a>
                             </li>
                         </ul>
@@ -99,11 +100,46 @@
                                 <span class="label label-default" ng-repeat="tag in link.tags">{{ tag.name }}</span>
                             </div>
                         </div>
+                        <div class="panel-footer">
+                            <button type="button" ng-click="open(link)" class="btn btn-default btn-sm">Edit</button>
+                        </div>
                     </div>
 
 
                 </div>
             </div>
+
+            <script type="text/ng-template" id="my_stash_edit.html">
+                <form novalidate class="simple-form">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Edit the selected item</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="titleInput">Title</label>
+                            <input id="titleInput" type="text" class="form-control" ng-model="item.title">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="item.public"> Public
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="tagsInput">Tags</label>
+                            <tags-input id="tagsInput"
+                                    min-length="2"
+                                    display-property="name"
+                                    ng-model="item.tags">
+                                <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
+                            </tags-input>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" ng-click="ok()">OK</button>
+                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                    </div>
+                </form>
+            </script>
         </div>
 
     {% endangularjs %}

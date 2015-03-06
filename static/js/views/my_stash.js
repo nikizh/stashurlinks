@@ -1,7 +1,12 @@
-var app = angular.module('MyStash', ['infinite-scroll', 'ngTagsInput'])
+var app = angular.module('MyStash', ['infinite-scroll', 'ngTagsInput', 'ui.bootstrap'])
 
-app.controller("MyStashController", ['$scope', '$http',
-    function ($scope, $http) {
+app.config(function ($httpProvider) {
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+});
+
+app.controller("MyStashController", ['$scope', '$http', '$modal',
+    function ($scope, $http, $modal) {
         $scope.links = [];
         $scope.nextPage = "";
         $scope.busy = false;
@@ -9,14 +14,14 @@ app.controller("MyStashController", ['$scope', '$http',
         $scope.visibilityOptions = [{name: "All", query: "all"}, {name: "Public", query: "pub"}, {
             name: "Private",
             query: "prv"
-        }]
+        }];
         $scope.visibilityOption = $scope.visibilityOptions[0];
         $scope.searchMode = false;
         $scope.tags = [];
         $scope.searchQuery = {q: ""};
         $scope.pollAllLinks = function () {
             $scope.busy = true;
-            var queryUrl = "api/mybookmarks/?format=json"
+            var queryUrl = "api/mybookmarks/?format=json";
             if ($scope.searchMode) {
                 if ($scope.tags.length > 0 && $scope.searchOption === "Search Tags") {
                     tagNames = jQuery.map($scope.tags, function (t, i) {
@@ -28,7 +33,7 @@ app.controller("MyStashController", ['$scope', '$http',
                     queryUrl = queryUrl + "&q=" + $scope.searchQuery.q;
                 }
             }
-            if($scope.visibilityOption !== $scope.visibilityOptions[0]){
+            if ($scope.visibilityOption !== $scope.visibilityOptions[0]) {
                 queryUrl = queryUrl + "&visibility=" + $scope.visibilityOption.query;
             }
 
@@ -51,13 +56,13 @@ app.controller("MyStashController", ['$scope', '$http',
                 $scope.busy = false;
             }
 
-        }
+        };
         $scope.addTag = function (tag) {
             $scope.push(tag);
-        }
+        };
         $scope.changeSearchOption = function (option) {
             $scope.searchOption = option;
-        }
+        };
         $scope.search = function () {
             $scope.nextPage = "";
             $scope.links = [];
@@ -76,16 +81,54 @@ app.controller("MyStashController", ['$scope', '$http',
                 $scope.pollAllLinks();
             }
 
-        }
+        };
         $scope.loadTags = function (query) {
             return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
-        }
-        $scope.changeVisibilityOption = function(option){
+        };
+        $scope.changeVisibilityOption = function (option) {
             $scope.nextPage = "";
             $scope.links = [];
             $scope.visibilityOption = option;
             $scope.pollAllLinks();
-        }
+        };
+
+        $scope.open = function (item) {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'my_stash_edit.html',
+                controller: 'MyStashEditCtrl',
+                resolve: {
+                    item: function () {
+                        return angular.copy(item);
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                angular.copy(selectedItem, item);
+            }, function () {
+
+            });
+        };
 
         $scope.pollAllLinks();
-    }])
+    }]);
+
+app.controller('MyStashEditCtrl', function ($scope, $modalInstance, $http, item) {
+
+    $scope.item = item;
+
+    $scope.loadTags = function (query) {
+        return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
+    };
+
+    $scope.ok = function () {
+        $http
+            .put(baseUrl + "api/mybookmarks/" + $scope.item.id + "/", $scope.item);
+        $modalInstance.close($scope.item);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
