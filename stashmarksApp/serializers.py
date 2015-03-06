@@ -16,9 +16,9 @@ class BookmarkSerializer(serializers.ModelSerializer):
         instance.title = validated_data.get('title', instance.title)
         instance.url = validated_data.get('url', instance.url)
         instance.public = validated_data.get('public', instance.public)
-
-
         instance.save()
+        
+        instance.tags.clear()
         tags = validated_data.get('tags', instance.tags)
         for i in range(len(tags)):
             current, success = models.Tag.objects.get_or_create(name=tags[i]["name"])

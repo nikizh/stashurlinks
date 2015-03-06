@@ -124,8 +124,11 @@ app.controller('MyStashEditCtrl', function ($scope, $modalInstance, $http, item)
 
     $scope.ok = function () {
         $http
-            .put(baseUrl + "api/mybookmarks/" + $scope.item.id + "/", $scope.item);
-        $modalInstance.close($scope.item);
+            .put(baseUrl + "api/mybookmarks/" + $scope.item.id + "/", $scope.item)
+            .success(function (data, status) {
+                var item = data;
+                $modalInstance.close(item);
+            });
     };
 
     $scope.cancel = function () {
