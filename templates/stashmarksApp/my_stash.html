@@ -102,6 +102,7 @@
                         </div>
                         <div class="panel-footer">
                             <button type="button" ng-click="open(link)" class="btn btn-default btn-sm">Edit</button>
+                            <button type="button" ng-click="openDelete(link)" class="btn btn-default btn-sm">Delete</button>
                         </div>
                     </div>
 
@@ -136,6 +137,18 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" ng-click="ok()">OK</button>
+                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                    </div>
+                </form>
+            </script>
+
+        <script type="text/ng-template" id="my_stash_delete.html">
+                <form novalidate class="simple-form">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Delete the selected item?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" ng-click="ok()">Yes</button>
                         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
                     </div>
                 </form>

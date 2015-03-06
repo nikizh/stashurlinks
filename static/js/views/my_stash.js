@@ -111,6 +111,26 @@ app.controller("MyStashController", ['$scope', '$http', '$modal',
             });
         };
 
+        $scope.openDelete = function (item) {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'my_stash_delete.html',
+                controller: 'MyStashDeleteCtrl',
+                resolve: {
+                    item: function () {
+                        return angular.copy(item);
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                var ind = $scope.links.indexOf(item);
+                $scope.links.splice(ind,1);
+            }, function () {
+
+            });
+        };
+
         $scope.pollAllLinks();
     }]);
 
@@ -128,6 +148,23 @@ app.controller('MyStashEditCtrl', function ($scope, $modalInstance, $http, item)
             .success(function (data, status) {
                 var item = data;
                 $modalInstance.close(item);
+            });
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('MyStashDeleteCtrl', function ($scope, $modalInstance, $http, item) {
+
+    $scope.item = item;
+
+    $scope.ok = function () {
+        $http
+            .delete(baseUrl + "api/mybookmarks/" + $scope.item.id + "/")
+            .success(function (data, status) {
+                $modalInstance.close();
             });
     };
 
