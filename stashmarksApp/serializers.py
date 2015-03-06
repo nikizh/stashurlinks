@@ -1,6 +1,20 @@
+import os
+from stashmarksProj import settings
 from stashmarksApp import models
 from rest_framework import serializers
 from datetime import datetime
+from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
+from PIL import Image
+import hashlib
+
+
+user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/600.2.5 (KHTML, like Gecko) Version/8.0.2 Safari/600.2.5'
+capabilities = dict(webdriver.DesiredCapabilities.PHANTOMJS)
+capabilities['phantomjs.page.settings.userAgent'] = user_agent
+capabilities['phantomjs.page.settings.loadImages'] = 'true'
+capabilities['phantomjs.page.settings.webSecurityEnabled'] = 'false'
+
 
 class TagSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=25)
@@ -17,8 +31,29 @@ class BookmarkSerializer(serializers.ModelSerializer):
 
         validated_data['date_created'] = datetime.utcnow()
 
-        # TODO create thumb
-        validated_data['thumb'] = 'placeholder.png'
+        try:
+            driver = webdriver.PhantomJS(desired_capabilities=capabilities)
+            driver.set_window_size(1024, 768)
+
+            hash_object = hashlib.sha1()
+
+            url = validated_data.get('url', validated_data)
+            hash_object.update(url.encode())
+
+            name = hash_object.hexdigest()[:7] + '.png'
+
+            file_name = os.path.join(settings.THUMBS_PATH, name)
+
+            driver.get(url)
+            driver.save_screenshot(file_name)
+            im = Image.open(file_name)
+            im = im.crop((0, 0, 1024, 768))
+            im.thumbnail([300, 300], Image.ANTIALIAS)
+            im.save(file_name, quality=100)
+
+            validated_data['thumb'] = name
+        except WebDriverException:
+            validated_data['thumb'] = 'placeholder.png'
 
         tags = validated_data.get('tags', validated_data)
 

@@ -114,6 +114,8 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+THUMBS_PATH = os.path.join(MEDIA_ROOT, 'thumbs')
+
 LOGIN_REDIRECT_URL = '/mystash'
 SITE_ID = 2
 
