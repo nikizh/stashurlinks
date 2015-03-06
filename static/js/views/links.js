@@ -44,13 +44,16 @@ app.controller("LinksListController", ['$scope', '$http',
                 $scope.busy = false;
             }
 
-        }
+        };
+
         $scope.addTag = function (tag) {
             $scope.push(tag);
-        }
+        };
+
         $scope.changeSearchOption = function (option) {
             $scope.searchOption = option;
-        }
+        };
+
         $scope.search = function () {
             $scope.nextPage = "";
             $scope.links = [];
@@ -69,10 +72,17 @@ app.controller("LinksListController", ['$scope', '$http',
                 $scope.pollAllLinks();
             }
 
-        }
+        };
+
+        $scope.filterByTag = function(item) {
+            $scope.searchOption = "Search Tags";
+            $scope.tags = [item];
+            $scope.search();
+        };
+
         $scope.loadTags = function (query) {
             return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
-        }
+        };
 
         $scope.pollAllLinks();
-    }])
+    }]);

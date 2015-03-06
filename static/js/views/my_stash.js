@@ -82,6 +82,13 @@ app.controller("MyStashController", ['$scope', '$http', '$modal',
             }
 
         };
+
+        $scope.filterByTag = function(item) {
+            $scope.searchOption = "Search Tags";
+            $scope.tags = [item];
+            $scope.search();
+        };
+
         $scope.loadTags = function (query) {
             return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
         };
