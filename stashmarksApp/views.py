@@ -77,7 +77,18 @@ class MyBookmarksViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return models.Bookmark.objects.filter(owner=user)
+        bookmarksQuery = models.Bookmark.objects.filter(owner=user)
+        if "visibility" in self.request.query_params:
+            visibility = True if self.request.query_params["visibility"] == "pub" else False
+            bookmarksQuery = bookmarksQuery.filter(public=visibility)
+        if "tags" in self.request.query_params:
+            tags = self.request.query_params["tags"].split(",")
+            bookmarksQuery = bookmarksQuery.filter(owner=user, tags__name__in=tags)
+        elif "q" in self.request.query_params:
+            query = self.request.query_params["q"]
+            bookmarksQuery = bookmarksQuery.filter(owner=user, title__contains=query)
+
+        return bookmarksQuery.order_by('-date_created')
 
 
 class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
