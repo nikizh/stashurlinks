@@ -143,7 +143,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" ng-click="ok()">Save</button>
+                        <button type="submit" class="btn btn-success" ng-click="save()" ng-disabled="canSave == false">Save</button>
                         <button class="btn btn-default" ng-click="cancel()">Cancel</button>
                     </div>
                 </form>
@@ -158,7 +158,7 @@
                         <p><i>After the bookmark is deleted it can not be restored!</i></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" ng-click="ok()">Delete</button>
+                        <button type="submit" class="btn btn-danger" ng-click="delete()" ng-disabled="canDelete == false">Delete</button>
                         <button class="btn btn-default" ng-click="cancel()">Cancel</button>
                     </div>
                 </form>
@@ -198,7 +198,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary btn-success" ng-click="ok()">Save</button>
+                        <button type="submit" class="btn btn-primary btn-success" ng-click="save()" ng-disabled="canSave == false">Save</button>
                         <button class="btn btn-default" ng-click="cancel()">Cancel</button>
                     </div>
                 </form>

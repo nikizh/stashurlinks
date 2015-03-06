@@ -149,12 +149,14 @@ app.controller("MyStashController", ['$scope', '$http', '$modal',
 app.controller('MyStashEditCtrl', function ($scope, $modalInstance, $http, item) {
 
     $scope.item = item;
+    $scope.canSave = true;
 
     $scope.loadTags = function (query) {
         return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
     };
 
-    $scope.ok = function () {
+    $scope.save = function () {
+        $scope.canSave = false; // disable the save button
         $http
             .put(baseUrl + "api/mybookmarks/" + $scope.item.id + "/", $scope.item)
             .success(function (data, status) {
@@ -171,8 +173,10 @@ app.controller('MyStashEditCtrl', function ($scope, $modalInstance, $http, item)
 app.controller('MyStashDeleteCtrl', function ($scope, $modalInstance, $http, item) {
 
     $scope.item = item;
+    $scope.canDelete = true;
 
-    $scope.ok = function () {
+    $scope.delete = function () {
+        $scope.canDelete = false; // disable the delete button
         $http
             .delete(baseUrl + "api/mybookmarks/" + $scope.item.id + "/")
             .success(function (data, status) {
@@ -187,6 +191,8 @@ app.controller('MyStashDeleteCtrl', function ($scope, $modalInstance, $http, ite
 
 app.controller('MyStashAddCtrl', function ($scope, $modalInstance, $http) {
 
+    $scope.canSave = true;
+
     $scope.item = {
         'public': false,
         'thumb': 'dummy_data', // placeholder data
@@ -197,7 +203,8 @@ app.controller('MyStashAddCtrl', function ($scope, $modalInstance, $http) {
         return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
     };
 
-    $scope.ok = function () {
+    $scope.save = function () {
+        $scope.canSave = false; // disable the save button
         $http
             .post(baseUrl + "api/mybookmarks/?format=json", $scope.item)
             .success(function (data, status) {
