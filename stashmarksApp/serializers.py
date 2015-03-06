@@ -1,9 +1,10 @@
 from stashmarksApp import models
 from rest_framework import serializers
-
+from datetime import datetime
 
 class TagSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=25)
+
     class Meta:
         model = models.Tag
         fields = ('name',)
@@ -11,6 +12,30 @@ class TagSerializer(serializers.ModelSerializer):
 
 class BookmarkSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, allow_null=True)
+
+    def create(self, validated_data):
+
+        validated_data['date_created'] = datetime.utcnow()
+
+        # TODO create thumb
+        validated_data['thumb'] = 'placeholder.png'
+
+        tags = validated_data.get('tags', validated_data)
+
+        validated_data.pop('tags', None)
+
+        # Create bookmark
+        bookmark = models.Bookmark(**validated_data)
+        bookmark.save()
+
+        # Add tags to the new bookmark
+        for i in range(len(tags)):
+            current, success = models.Tag.objects.get_or_create(name=tags[i]["name"])
+            bookmark.tags.add(current)
+
+        bookmark.save()
+
+        return bookmark
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)

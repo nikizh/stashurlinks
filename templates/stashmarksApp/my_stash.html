@@ -15,9 +15,9 @@
                     <h1>My Stash</h1>
                 </div>
                 <div class="col-md-1">
-                    <a href="{% url 'my_stash_add' %}" class="btn btn-default btn-lg add-button">
+                    <button ng-click="openAdd()" class="btn btn-default btn-lg add-button">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New
-                    </a>
+                    </button>
                 </div>
             </div>
             <div class="row">
@@ -106,15 +106,13 @@
                             </button>
                         </div>
                     </div>
-
-
                 </div>
             </div>
 
             <script type="text/ng-template" id="my_stash_edit.html">
                 <form novalidate class="simple-form" name="editForm">
                     <div class="modal-header">
-                        <h3 class="modal-title">Edit the selected item</h3>
+                        <h3 class="modal-title">Edit bookmark</h3>
                     </div>
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error': editForm.title.$invalid }">
@@ -138,8 +136,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" ng-click="ok()">OK</button>
-                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                        <button type="submit" class="btn btn-success" ng-click="ok()">Save</button>
+                        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
                     </div>
                 </form>
             </script>
@@ -147,11 +145,54 @@
             <script type="text/ng-template" id="my_stash_delete.html">
                 <form novalidate class="simple-form">
                     <div class="modal-header">
-                        <h3 class="modal-title">Delete the selected item?</h3>
+                        <h3 class="modal-title">Are you sure you want to delete this bookmark?</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p><i>After the bookmark is deleted it can not be restored!</i></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" ng-click="ok()">Yes</button>
-                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                        <button type="submit" class="btn btn-danger" ng-click="ok()">Delete</button>
+                        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+                    </div>
+                </form>
+            </script>
+
+            <script type="text/ng-template" id="my_stash_add.html">
+                <form novalidate class="simple-form" name="addForm">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Create new bookmark</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" ng-class="{ 'has-error': addForm.url.$invalid }">
+                            <label for="urlInput">URL</label>
+                            <input required name="url" id="urlInput" type="url" class="form-control"
+                                   placeholder="http://example.com"
+                                   ng-model="item.url">
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': addForm.title.$invalid }">
+                            <label for="titleInput">Title</label>
+                            <input required name="title" id="titleInput" type="text" class="form-control"
+                                   placeholder="My New Bookmark"
+                                   ng-model="item.title">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="item.public"> Public
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="tagsInput">Tags</label>
+                            <tags-input id="tagsInput"
+                                        min-length="2"
+                                        display-property="name"
+                                        ng-model="item.tags">
+                                <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
+                            </tags-input>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-success" ng-click="ok()">Save</button>
+                        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
                     </div>
                 </form>
             </script>

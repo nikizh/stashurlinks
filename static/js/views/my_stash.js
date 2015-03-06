@@ -55,8 +55,8 @@ app.controller("MyStashController", ['$scope', '$http', '$modal',
             else {
                 $scope.busy = false;
             }
-
         };
+
         $scope.addTag = function (tag) {
             $scope.push(tag);
         };
@@ -107,7 +107,6 @@ app.controller("MyStashController", ['$scope', '$http', '$modal',
             modalInstance.result.then(function (selectedItem) {
                 angular.copy(selectedItem, item);
             }, function () {
-
             });
         };
 
@@ -126,6 +125,19 @@ app.controller("MyStashController", ['$scope', '$http', '$modal',
             modalInstance.result.then(function () {
                 var ind = $scope.links.indexOf(item);
                 $scope.links.splice(ind,1);
+            }, function () {
+            });
+        };
+
+        $scope.openAdd = function () {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'my_stash_add.html',
+                controller: 'MyStashAddCtrl'
+            });
+
+            modalInstance.result.then(function (newItem) {
+                $scope.links.splice(0, 0, newItem);
             }, function () {
 
             });
@@ -165,6 +177,32 @@ app.controller('MyStashDeleteCtrl', function ($scope, $modalInstance, $http, ite
             .delete(baseUrl + "api/mybookmarks/" + $scope.item.id + "/")
             .success(function (data, status) {
                 $modalInstance.close();
+            });
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('MyStashAddCtrl', function ($scope, $modalInstance, $http) {
+
+    $scope.item = {
+        'public': false,
+        'thumb': 'dummy_data', // placeholder data
+        'date_created': "1970-01-01T00:00:00" // placeholder data
+    };
+
+    $scope.loadTags = function (query) {
+        return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
+    };
+
+    $scope.ok = function () {
+        $http
+            .post(baseUrl + "api/mybookmarks/?format=json", $scope.item)
+            .success(function (data, status) {
+                var item = data;
+                $modalInstance.close(item);
             });
     };
 

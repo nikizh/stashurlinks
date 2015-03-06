@@ -21,12 +21,6 @@ def my_stash(request):
 
 
 @login_required
-def my_stash_add(request):
-    context_dict = {}
-    return render(request, 'stashmarksApp/my_stash_add.html', context_dict)
-
-
-@login_required
 def links(request):
     context_dict = {}
     return render(request, 'stashmarksApp/links.html', context_dict)
