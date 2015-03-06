@@ -11,10 +11,11 @@ app.controller("MyStashController", ['$scope', '$http', '$modal',
         $scope.nextPage = "";
         $scope.busy = false;
         $scope.searchOption = "Search Tags";
-        $scope.visibilityOptions = [{name: "All", query: "all"}, {name: "Public", query: "pub"}, {
-            name: "Private",
-            query: "prv"
-        }];
+        $scope.visibilityOptions = [
+            {name: "All", query: "all", icon: "glyphicon-th"},
+            {name: "Public", query: "pub", icon: "glyphicon-eye-open"},
+            {name: "Private", query: "prv", icon: "glyphicon-lock"}
+        ];
         $scope.visibilityOption = $scope.visibilityOptions[0];
         $scope.searchMode = false;
         $scope.tags = [];
@@ -83,7 +84,7 @@ app.controller("MyStashController", ['$scope', '$http', '$modal',
 
         };
 
-        $scope.filterByTag = function(item) {
+        $scope.filterByTag = function (item) {
             $scope.searchOption = "Search Tags";
             $scope.tags = [item];
             $scope.search();
@@ -131,7 +132,7 @@ app.controller("MyStashController", ['$scope', '$http', '$modal',
 
             modalInstance.result.then(function () {
                 var ind = $scope.links.indexOf(item);
-                $scope.links.splice(ind,1);
+                $scope.links.splice(ind, 1);
             }, function () {
             });
         };
