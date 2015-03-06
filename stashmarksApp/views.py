@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions
 from stashmarksApp import models, serializers
@@ -83,6 +84,17 @@ class MyBookmarksViewSet(viewsets.ModelViewSet):
             bookmarksQuery = bookmarksQuery.filter(owner=user, title__contains=query)
 
         return bookmarksQuery.order_by('-date_created')
+
+    def perform_destroy(self, instance):
+        from stashmarksProj import settings
+
+        if instance.thumb and instance.thumb is not 'placeholder.png':
+            thumb_file = os.path.join(settings.THUMBS_PATH, instance.thumb)
+
+            if os.path.isfile(thumb_file):
+                os.remove(thumb_file)
+
+        super().perform_destroy(instance)
 
 
 class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
