@@ -14,15 +14,16 @@
                 <div class="col-md-10 text-center">
                     <h1>My Stash</h1>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-1 text-center">
                     <button ng-click="openAdd()" class="btn btn-default btn-lg add-button">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New
                     </button>
+                    <span class="clearfix"></span>
                 </div>
             </div>
             <div class="row search-row">
                 <div class="col-md-2">&nbsp;</div>
-                <div class="col-md-8 input-group">
+                <div class="col-md-8">
                     <form ng-submit="search()">
                         <div class="input-group">
 
@@ -60,23 +61,24 @@
                                        placeholder="Search"
                                        ng-model="searchQuery.q"/>
                             </div>
+                            <div class="dropdown input-group-btn">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                        data-toggle="dropdown" aria-expanded="true">
+                                    {{ visibilityOption.name }}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                    <li ng-repeat="option in visibilityOptions" role="presentation">
+                                        <a role="menuitem" ng-click="changeVisibilityOption(option)" tabindex="-1"
+                                           href="javascript:void(0)">
+                                            <span class="glyphicon {{ option.icon }}"
+                                                  aria-hidden="true"></span> {{ option.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </form>
-                    <div class="dropdown input-group-btn">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                                data-toggle="dropdown" aria-expanded="true">
-                            {{ visibilityOption.name }}
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            <li ng-repeat="option in visibilityOptions" role="presentation">
-                                <a role="menuitem" ng-click="changeVisibilityOption(option)" tabindex="-1"
-                                   href="javascript:void(0)">
-                                    <span class="glyphicon {{ option.icon }}" aria-hidden="true"></span> {{ option.name }}</a>
-                            </li>
-                        </ul>
-                    </div>
-
+                    <span class="clearfix"></span>
                 </div>
                 <div class="col-md-2">&nbsp;</div>
             </div>
@@ -205,7 +207,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-success" ng-click="save()"
-                                ng-disabled="canSave == false"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+                                ng-disabled="canSave == false"><span class="glyphicon glyphicon-floppy-disk"
+                                                                     aria-hidden="true"></span> Save
                         </button>
                         <button class="btn btn-default" ng-click="cancel()">Cancel</button>
                     </div>
