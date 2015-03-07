@@ -65,6 +65,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
     "django.contrib.auth.context_processors.auth",
+    "stashmarksProj.context_processors.baseurl",
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -101,6 +102,7 @@ USE_L10N = True
 
 USE_TZ = False
 
+SITE_URL = 'localhost:8000'
 
 # Static files (CSS, JavaScript, Images)
 
