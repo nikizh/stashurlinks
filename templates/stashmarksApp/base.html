@@ -7,7 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="{% static "images/favicon.ico" %}">
+
+    <!-- Touch icon for iOS 2.0+ and Android 2.1+ -->
+    <link rel="apple-touch-icon-precomposed" href="{% static "images/favicon-152.png" %}">
+    <!-- IE 10 Metro tile icon -->
+    <meta name="msapplication-TileImage" content="{% static "images/favicon-144.png" %}">
+    <!-- For iPad with high-resolution Retina display running iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{% static "images/favicon-152.png" %}">
+    <!-- For iPad with high-resolution Retina display running iOS ≤ 6: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static "images/favicon-144.png" %}">
+    <!-- For iPhone with high-resolution Retina display running iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{% static "images/favicon-120.png" %}">
+    <!-- For iPhone with high-resolution Retina display running iOS ≤ 6: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static "images/favicon-114.png" %}">
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static "images/favicon-72.png" %}">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="{% static "images/favicon-57.png" %}">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="icon" href="{% static "images/favicon-32.png" %}" sizes="32x32">
 
     <title>StashURLinks{% if title %} - {% block title %}{% endblock %}{% endif %}</title>
 
@@ -73,7 +91,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             {% if accounts %}
-                                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="img-circle profile-img-dropdown"/>
+                                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
+                                     class="img-circle profile-img-dropdown"/>
                             {% else %}
                                 <img src="{% gravatar_url user.email 32 %}" class="img-circle profile-img-dropdown"/>
                             {% endif %}
@@ -81,9 +100,11 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{% url 'settings' %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings</a></li>
+                            <li><a href="{% url 'settings' %}"><span class="glyphicon glyphicon-cog"
+                                                                     aria-hidden="true"></span> Settings</a></li>
                             <li class="divider"></li>
-                            <li><a href="/accounts/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Sign Out</a></li>
+                            <li><a href="/accounts/logout"><span class="glyphicon glyphicon-log-out"
+                                                                 aria-hidden="true"></span> Sign Out</a></li>
                         </ul>
                     </li>
                 {% else %}
