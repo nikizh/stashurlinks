@@ -40,7 +40,7 @@
   ```
 
 ## Login
-  ### Default users
+### Default users
 
   - Username: `user1` Password: `pass`
   - Username: `user2` Password: `pass`
