@@ -128,6 +128,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
 try:
-    from local_settings import *
+    from stashmarksProj.local_settings import *
 except ImportError as e:
     pass
