@@ -102,6 +102,8 @@ USE_L10N = True
 
 USE_TZ = False
 
+SITE_DOMAIN = 'localhost'
+SITE_NAME = 'localhost'
 SITE_URL = 'localhost:8000'
 
 # Static files (CSS, JavaScript, Images)
@@ -124,3 +126,8 @@ SITE_ID = 2
 #auth
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+try:
+    from local_settings import *
+except ImportError as e:
+    pass

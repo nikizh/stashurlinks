@@ -12,8 +12,8 @@ from stashmarksApp.models import Bookmark, Tag
 from populate_sample_data import SAMPLE_DATA
 from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
-from stashmarksProj.secret import FB_SECRET
-from stashmarksProj.secret import G_SECRET
+from stashmarksProj.secret import FB_SECRET, G_SECRET
+from stashmarksProj.settings import SITE_DOMAIN, SITE_NAME
 
 
 def populate():
@@ -25,7 +25,7 @@ def populate():
 
 
 def populate_auth_data():
-    site = Site.objects.get_or_create(pk=2, domain='localhost', name='localhost')
+    site = Site.objects.get_or_create(pk=2, domain=SITE_DOMAIN, name=SITE_NAME)
 
     app, created = SocialApp.objects.get_or_create(name="Facebook",
                                                    provider="facebook",
@@ -96,7 +96,7 @@ def create_or_get_user(username, email, password):
 def create_users():
     # Create administrator
     try:
-        User.objects.create_superuser('admin', 'admin@example.com', 'pass')
+        User.objects.create_superuser('admin', 'stashurlinks' + '@gmail.com', 'pass')
     except django.db.utils.IntegrityError:
         pass
 
