@@ -108,7 +108,7 @@ class MyBookmarksViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         from stashmarksProj import settings
 
-        if instance.thumb and instance.thumb is not 'placeholder.png':
+        if instance.thumb and instance.thumb != 'placeholder.png':
             thumb_file = os.path.join(settings.THUMBS_PATH, instance.thumb)
 
             if os.path.isfile(thumb_file):
