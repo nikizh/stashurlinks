@@ -26,6 +26,13 @@ class TagSerializer(serializers.ModelSerializer):
 
 class BookmarkSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, allow_null=True)
+    liked = serializers.SerializerMethodField(read_only=True)
+
+    def get_liked(self, obj):
+        request = self.context.get('request', None)
+        user = request.user
+        current, success = models.Ratings.objects.get_or_create(owner=user, bookmark=obj)
+        return current.liked
 
     def create(self, validated_data):
 
@@ -76,6 +83,7 @@ class BookmarkSerializer(serializers.ModelSerializer):
         instance.title = validated_data.get('title', instance.title)
         instance.url = validated_data.get('url', instance.url)
         instance.public = validated_data.get('public', instance.public)
+
         instance.save()
 
         instance.tags.clear()
@@ -88,4 +96,15 @@ class BookmarkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Bookmark
-        fields = ('id', 'title', 'url', 'public', 'thumb', 'tags', 'date_created')
+        fields = ('id', 'title', 'url', 'public', 'thumb', 'tags', 'date_created', 'likes', 'liked')
+
+
+class RatingsSerializer(serializers.ModelSerializer):
+    likes = serializers.SerializerMethodField(read_only=True)
+
+    def get_likes(self, obj):
+        return obj.bookmark.likes
+
+    class Meta:
+        model = models.Ratings
+        fields = ('liked','likes')

@@ -1,5 +1,10 @@
 var app = angular.module('LinksList', ['infinite-scroll', 'ngTagsInput'])
 
+app.config(function ($httpProvider) {
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+});
+
 app.controller("LinksListController", ['$scope', '$http',
     function ($scope, $http) {
         $scope.links = [];
@@ -74,7 +79,7 @@ app.controller("LinksListController", ['$scope', '$http',
 
         };
 
-        $scope.filterByTag = function(item) {
+        $scope.filterByTag = function (item) {
             $scope.searchOption = "Search Tags";
             $scope.tags = [item];
             $scope.search();
@@ -82,6 +87,13 @@ app.controller("LinksListController", ['$scope', '$http',
 
         $scope.loadTags = function (query) {
             return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
+        };
+
+        $scope.likeClick = function (link) {
+            $http.put(baseUrl + "api/rating/" + link.id + "/?format=json&q=", {liked: !link.liked}).success(function (data, status) {
+                link.liked = data.liked;
+                link.likes = data.likes;
+            });
         };
 
         $scope.pollAllLinks();

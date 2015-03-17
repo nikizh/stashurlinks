@@ -18,6 +18,13 @@ class Bookmark(models.Model):
     tags = models.ManyToManyField(Tag)
     owner = models.ForeignKey(User)
     date_created = models.DateTimeField(default=datetime.now)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.url
+
+
+class Ratings(models.Model):
+    owner = models.ForeignKey(User)
+    bookmark = models.ForeignKey(Bookmark)
+    liked = models.BooleanField(default=False)

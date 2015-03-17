@@ -76,6 +76,10 @@
                                 <span class="label label-default tag-label" ng-repeat="tag in link.tags"
                                       ng-click="filterByTag(tag)">{{ tag.name }}</span>
                             </div>
+                            <div>
+                                Likes <span class="badge">{{ link.likes }}</span>
+                                <a ng-click="likeClick(link)">{{ link.liked }}</a>
+                            </div>
                         </div>
                     </div>
 

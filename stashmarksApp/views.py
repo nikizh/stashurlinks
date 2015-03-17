@@ -1,12 +1,14 @@
 import os
 from django.shortcuts import render, redirect
+from rest_framework.response import Response
+from rest_framework import status
 from rest_framework import viewsets, permissions
+from rest_framework.views import APIView
 from stashmarksApp import models, serializers
 from django.contrib.auth.decorators import login_required
 from allauth.account.forms import ChangePasswordForm
 from django.views.decorators.clickjacking import xframe_options_exempt
 from urllib import parse
-import re
 
 
 def index(request):
@@ -133,3 +135,23 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
             return models.Bookmark.objects.filter(public=True, title__contains=query)
         else:
             return models.Bookmark.objects.filter(public=True).order_by('-date_created')
+
+
+class RateBookmark(APIView):
+    def put(self, request, bookmarkId, format=None):
+        user = self.request.user
+        currentRating, success = models.Ratings.objects.get_or_create(owner=user, bookmark__id=bookmarkId)
+        currentBookmark = models.Bookmark.objects.get(id=bookmarkId)
+        serializer = serializers.RatingsSerializer(currentRating, data=request.data)
+        if serializer.is_valid():
+            wasLiked = currentRating.liked
+            isLiked = request.data["liked"]
+            if(wasLiked < isLiked):
+                currentBookmark.likes += 1
+                currentBookmark.save()
+            elif(wasLiked > isLiked):
+                currentBookmark.likes -= 1
+                currentBookmark.save()
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
