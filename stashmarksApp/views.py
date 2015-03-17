@@ -102,14 +102,7 @@ class MyBookmarksViewSet(viewsets.ModelViewSet):
             query = self.request.query_params["q"]
             bookmarksQuery = bookmarksQuery.filter(owner=user, title__contains=query)
 
-        if "order" in self.request.query_params:
-            order = self.request.query_params["order"]
-            if order == "likes":
-                bookmarksQuery = bookmarksQuery.order_by('likes', '-date_created')
-            else:
-                bookmarksQuery = bookmarksQuery.order_by('-date_created')
-
-        return bookmarksQuery
+        return bookmarksQuery.order_by('-date_created')
 
     def perform_destroy(self, instance):
         from stashmarksProj import settings
