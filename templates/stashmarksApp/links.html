@@ -78,7 +78,8 @@
                             </div>
                             <div>
                                 Likes <span class="badge">{{ link.likes }}</span>
-                                <a ng-click="likeClick(link)">{{ link.liked }}</a>
+                                <button class="btn btn-xs btn-primary" ng-hide="link.liked" ng-click="likeClick(link)">Like</button>
+                                <button class="btn btn-xs btn-primary" ng-show="link.liked" ng-click="likeClick(link)">Unlike</button>
                             </div>
                         </div>
                     </div>
