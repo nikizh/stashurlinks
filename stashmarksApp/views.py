@@ -28,7 +28,6 @@ def my_stash(request):
 
 @xframe_options_exempt
 def my_stash_add(request, title, url):
-
     # Escape quote
     escaped_title = title.replace("'", "\\'")
 
@@ -103,7 +102,14 @@ class MyBookmarksViewSet(viewsets.ModelViewSet):
             query = self.request.query_params["q"]
             bookmarksQuery = bookmarksQuery.filter(owner=user, title__contains=query)
 
-        return bookmarksQuery.order_by('-date_created')
+        if "order" in self.request.query_params:
+            order = self.request.query_params["order"]
+            if order == "likes":
+                bookmarksQuery = bookmarksQuery.order_by('likes', '-date_created')
+            else:
+                bookmarksQuery = bookmarksQuery.order_by('-date_created')
+
+        return bookmarksQuery
 
     def perform_destroy(self, instance):
         from stashmarksProj import settings
@@ -124,14 +130,22 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
     paginate_by = 6
 
     def get_queryset(self):
+        bookmarksQuery = models.Bookmark.objects.filter(public=True)
         if "tags" in self.request.query_params:
             tags = self.request.query_params["tags"].split(",")
-            return models.Bookmark.objects.filter(public=True, tags__name__in=tags)
+            bookmarksQuery = bookmarksQuery.filter(tags__name__in=tags)
         elif "q" in self.request.query_params:
             query = self.request.query_params["q"]
-            return models.Bookmark.objects.filter(public=True, title__contains=query)
-        else:
-            return models.Bookmark.objects.filter(public=True).order_by('-date_created')
+            bookmarksQuery = bookmarksQuery.filter(title__contains=query)
+
+        if "order" in self.request.query_params:
+            order = self.request.query_params["order"]
+            if order == "likes":
+                bookmarksQuery = bookmarksQuery.order_by('-likes', '-date_created')
+            else:
+                bookmarksQuery = bookmarksQuery.order_by('-date_created')
+
+        return bookmarksQuery
 
 
 class RateBookmark(APIView):
@@ -143,10 +157,10 @@ class RateBookmark(APIView):
         if serializer.is_valid():
             wasLiked = currentRating.liked
             isLiked = request.data["liked"]
-            if(wasLiked < isLiked):
+            if (wasLiked < isLiked):
                 currentBookmark.likes += 1
                 currentBookmark.save()
-            elif(wasLiked > isLiked):
+            elif (wasLiked > isLiked):
                 currentBookmark.likes -= 1
                 currentBookmark.save()
             serializer.save()

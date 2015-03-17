@@ -55,6 +55,20 @@
                                        placeholder="Search"
                                        ng-model="searchQuery.q"/>
                             </div>
+                            <div class="dropdown input-group-btn">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                        data-toggle="dropdown" aria-expanded="true">
+                                    {{ orderOption.name }}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                    <li ng-repeat="option in orderOptions" role="presentation">
+                                        <a role="menuitem" ng-click="changeOrderOption(option)" tabindex="-1"
+                                           href="javascript:void(0)">
+                                            {{ option.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </form>
                     <span class="clearfix"></span>
@@ -78,8 +92,12 @@
                             </div>
                             <div>
                                 Likes <span class="badge">{{ link.likes }}</span>
-                                <button class="btn btn-xs btn-primary" ng-hide="link.liked" ng-click="likeClick(link)">Like</button>
-                                <button class="btn btn-xs btn-primary" ng-show="link.liked" ng-click="likeClick(link)">Unlike</button>
+                                <button class="btn btn-xs btn-primary" ng-hide="link.liked" ng-click="likeClick(link)">
+                                    Like
+                                </button>
+                                <button class="btn btn-xs btn-primary" ng-show="link.liked" ng-click="likeClick(link)">
+                                    Unlike
+                                </button>
                             </div>
                         </div>
                     </div>
