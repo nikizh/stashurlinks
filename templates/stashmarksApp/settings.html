@@ -11,16 +11,15 @@
             </div>
         </div>
 
+
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-5 text-center">
                 {% if accounts %}
                     <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
                          class="img-circle profile-img-settings"/>
                 {% else %}
                     <img src="{% gravatar_url user.email 150 %}" class="img-circle profile-img-settings"/>
                 {% endif %}
-            </div>
-            <div class="col-md-10">
                 <h2>{{ user.username }}</h2>
 
                 {% if accounts %}
@@ -29,66 +28,77 @@
 
                 {% endif %}
 
-                <h4>Bookmarklet</h4>
-
-                <p>This is your personal bookmarklet. It will help you to add this quickly to you stash. Just drag &
-                    drop it in your bookmark bar and click it when you want to add a pacge to your stash.</p>
-
-                <p>
-                    <a class="btn btn-default"
-                       href="javascript:(function(e,t)%7Bvar%20n%20%3D%20e.document%3BsetTimeout(function()%20%7Bfunction%20a(e)%20%7Bif%20(e.data%20%3D%3D%3D%20%22destroy_bookmarklet%22)%20%7Bvar%20r%20%3D%20n.getElementById(t)%3Bif%20(r)%20%7Bn.body.removeChild(r)%3Br%20%3D%20null%7D%7D%7Dvar%20t%20%3D%20%22STASHURLINKS_iframe%22%3Bvar%20r%20%3D%20n.getElementById(t)%3Bif%20(r)%20%7Breturn%7Dvar%20s%20%3D%20n.createElement(%22iframe%22)%3Bs.id%20%3D%20t%3Bvar%20host%20%3D%20%22{{ SITE_PROTOCOL_URL | urlencode }}%22%3Bs.src%20%3D%20host%20%2B%20%22%2Fmystash%2Fadd%2Ftitle%2F%22%2BencodeURIComponent(n.title)%2B%22%2Furl%2F%22%2BencodeURIComponent(e.location.href)%3Bs.style.position%20%3D%20%22fixed%22%3Bs.style.top%20%3D%20%220%22%3Bs.style.left%20%3D%20%220%22%3Bs.style.height%20%3D%20%22100%25%22%3Bs.style.width%20%3D%20%22100%25%22%3Bs.style.zIndex%20%3D%20%2216777270%22%3Bs.style.border%20%3D%20%22none%22%3Bs.style.visibility%20%3D%20%22hidden%22%3Bs.onload%20%3D%20function()%20%7Bthis.style.visibility%20%3D%20%22visible%22%7D%3Bn.body.appendChild(s)%3Bvar%20o%20%3D%20e.addEventListener%20%3F%20%22addEventListener%22%20%3A%20%22attachEvent%22%3Bvar%20u%20%3D%20o%20%3D%3D%20%22attachEvent%22%20%3F%20%22onmessage%22%20%3A%20%22message%22%3Be%5Bo%5D(u%2C%20a%2C%20false)%7D%2C%201)%7D)(window)"
-                       role="button">✚ Add to StashURLinks</a>
-                </p>
 
                 {% if not accounts %}
-                    <form method="POST" action="/settings/">
-                        {% csrf_token %}
-                        <h4>Change password</h4>
+                    <div class="text-left">
+                        <form method="POST" action="/settings/">
+                            {% csrf_token %}
+                            <h4>Change password</h4>
 
-                        {% if form.errors %}
-                            <div class="alert alert-danger" role="alert">
-                                <strong>Error</strong> The password was not changed. <br/>
-                                {% for error in form.non_field_errors %}
-                                    <strong>{{ error|escape }}</strong><br/>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-
-                        {% for field in form %}
-
-                            {% if field.name == 'oldpassword' %}
-                                <div class="form-group">
-                                    <label for="password0">Old password</label>
-                                    <input name="oldpassword" type="password" class="form-control" id="password0"
-                                           placeholder="Password">
-                                </div>
-                            {% elif field.name == 'password1' %}
-                                <div class="form-group">
-                                    <label for="password1">New password</label>
-                                    <input name="password1" type="password" class="form-control" id="password1"
-                                           placeholder="Password">
-                                </div>
-                            {% elif field.name == 'password2' %}
-                                <div class="form-group">
-                                    <label for="password2">New password (repeat)</label>
-                                    <input name="password2" type="password" class="form-control" id="password2"
-                                           placeholder="Password">
-                                </div>
-                            {% endif %}
-
-                            {% if field.errors %}
+                            {% if form.errors %}
                                 <div class="alert alert-danger" role="alert">
-                                    {% for error in field.errors %}
+                                    <strong>Error</strong> The password was not changed. <br/>
+                                    {% for error in form.non_field_errors %}
                                         <strong>{{ error|escape }}</strong><br/>
                                     {% endfor %}
                                 </div>
                             {% endif %}
-                        {% endfor %}
 
-                        <button type="submit" class="btn btn-default">Change Password</button>
-                    </form>
+                            {% for field in form %}
+
+                                {% if field.name == 'oldpassword' %}
+                                    <div class="form-group">
+                                        <label for="password0">Old password</label>
+                                        <input name="oldpassword" type="password" class="form-control" id="password0"
+                                               placeholder="Password">
+                                    </div>
+                                {% elif field.name == 'password1' %}
+                                    <div class="form-group">
+                                        <label for="password1">New password</label>
+                                        <input name="password1" type="password" class="form-control" id="password1"
+                                               placeholder="Password">
+                                    </div>
+                                {% elif field.name == 'password2' %}
+                                    <div class="form-group">
+                                        <label for="password2">New password (repeat)</label>
+                                        <input name="password2" type="password" class="form-control" id="password2"
+                                               placeholder="Password">
+                                    </div>
+                                {% endif %}
+
+                                {% if field.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for error in field.errors %}
+                                            <strong>{{ error|escape }}</strong><br/>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                            <button type="submit" class="btn btn-default">Change Password</button>
+                        </form>
+                    </div>
                 {% endif %}
             </div>
+
+            <div class="col-md-5 col-md-offset-1">
+
+                <div class="bookmarklet-box">
+                    <h4>Bookmarklet</h4>
+
+                    <p>This is your personal bookmarklet. Just drag &
+                        drop it in your bookmark bar and click it when you want to add a page to your stash.</p>
+
+                    <p>
+                        <a class="btn btn-default"
+                           href="javascript:(function(e,t)%7Bvar%20n%20%3D%20e.document%3BsetTimeout(function()%20%7Bfunction%20a(e)%20%7Bif%20(e.data%20%3D%3D%3D%20%22destroy_bookmarklet%22)%20%7Bvar%20r%20%3D%20n.getElementById(t)%3Bif%20(r)%20%7Bn.body.removeChild(r)%3Br%20%3D%20null%7D%7D%7Dvar%20t%20%3D%20%22STASHURLINKS_iframe%22%3Bvar%20r%20%3D%20n.getElementById(t)%3Bif%20(r)%20%7Breturn%7Dvar%20s%20%3D%20n.createElement(%22iframe%22)%3Bs.id%20%3D%20t%3Bvar%20host%20%3D%20%22{{ SITE_PROTOCOL_URL | urlencode }}%22%3Bs.src%20%3D%20host%20%2B%20%22%2Fmystash%2Fadd%2Ftitle%2F%22%2BencodeURIComponent(n.title)%2B%22%2Furl%2F%22%2BencodeURIComponent(e.location.href)%3Bs.style.position%20%3D%20%22fixed%22%3Bs.style.top%20%3D%20%220%22%3Bs.style.left%20%3D%20%220%22%3Bs.style.height%20%3D%20%22100%25%22%3Bs.style.width%20%3D%20%22100%25%22%3Bs.style.zIndex%20%3D%20%2216777270%22%3Bs.style.border%20%3D%20%22none%22%3Bs.style.visibility%20%3D%20%22hidden%22%3Bs.onload%20%3D%20function()%20%7Bthis.style.visibility%20%3D%20%22visible%22%7D%3Bn.body.appendChild(s)%3Bvar%20o%20%3D%20e.addEventListener%20%3F%20%22addEventListener%22%20%3A%20%22attachEvent%22%3Bvar%20u%20%3D%20o%20%3D%3D%20%22attachEvent%22%20%3F%20%22onmessage%22%20%3A%20%22message%22%3Be%5Bo%5D(u%2C%20a%2C%20false)%7D%2C%201)%7D)(window)"
+                           role="button">✚ Add to Stash</a>
+                    </p>
+                    
+                    <img src="{% static 'images/drag-and-drop-demo.png' %}">
+                </div>
+            </div>
+
         </div>
     </div>
 {% endblock %}
