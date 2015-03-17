@@ -63,6 +63,10 @@
             border: 3px solid #EBEBEB;
             padding-bottom: 30px;
         }
+
+        .logo-my-stash-add {
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -75,8 +79,7 @@
             <div class="col-md-12">
                 <form novalidate class="simple-form" name="addForm">
                     <div class="modal-header">
-                        <img src="{% static 'images/logo.png' %}" class="text-center">
-
+                        <img src="{% static 'images/logo.png' %}">
                         <h3 class="modal-title">Create new bookmark</h3>
                     </div>
                     {% verbatim %}
@@ -131,8 +134,10 @@
     <div class="container" style="background: #ffffff" ng-app="MyStash" ng-controller="MyStashAddBMLCtrl">
         <div class="row">
             <div class="col-md-12 text-center">
+                <img src="{% static 'images/logo.png' %}" class="logo-my-stash-add">
+
                 <h1>Please login</h1>
-                <a href="/accounts/login" target="_parent" class="btn btn-success btn-xlarge">Login</a>
+                <a href="/accounts/login" target="_parent" class="btn btn-success btn-xlarge">Sign In</a>
             </div>
         </div>
     </div>

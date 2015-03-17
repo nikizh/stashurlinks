@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from allauth.account.forms import ChangePasswordForm
 from django.views.decorators.clickjacking import xframe_options_exempt
 from urllib import parse
-import re
 
 
 def index(request):
