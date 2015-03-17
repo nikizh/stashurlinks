@@ -12,23 +12,28 @@ app.controller("LinksListController", ['$scope', '$http',
         $scope.busy = false;
         $scope.searchOption = "Search Tags";
         $scope.searchMode = false;
+        $scope.orderOptions = [
+            {name: "Latest", query: "latest"},
+            {name: "Most Liked", query: "likes"}
+        ];
+        $scope.orderOption = $scope.orderOptions[0];
         $scope.tags = [];
         $scope.searchQuery = {q: ""};
         $scope.pollAllLinks = function () {
             $scope.busy = true;
+            var queryUrl = "api/allbookmarks/?format=json&order=" + $scope.orderOption.query;
             if ($scope.searchMode) {
                 if ($scope.tags.length > 0 && $scope.searchOption === "Search Tags") {
                     tagNames = jQuery.map($scope.tags, function (t, i) {
                         return ( t.name );
                     });
-                    var queryUrl = "api/allbookmarks/?format=json&tags=" + tagNames.toString();
+                    queryUrl = queryUrl + "&tags=" + tagNames.toString();
                 }
                 else if ($scope.searchQuery.q && $scope.searchOption === "Search Text") {
-                    var queryUrl = "api/allbookmarks/?format=json&q=" + $scope.searchQuery.q;
+                    queryUrl = queryUrl + "&q=" + $scope.searchQuery.q;
                 }
             }
-            else
-                var queryUrl = "api/allbookmarks/?format=json"
+
 
             var requestUrl = $scope.nextPage == "" ? baseUrl + queryUrl : $scope.nextPage;
 
@@ -94,6 +99,13 @@ app.controller("LinksListController", ['$scope', '$http',
                 link.liked = data.liked;
                 link.likes = data.likes;
             });
+        };
+
+        $scope.changeOrderOption = function (option) {
+            $scope.orderOption = option;
+            $scope.nextPage = "";
+            $scope.links = [];
+            $scope.pollAllLinks();
         };
 
         $scope.pollAllLinks();
