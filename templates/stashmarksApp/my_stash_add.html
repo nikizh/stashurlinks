@@ -53,84 +53,91 @@
     <script src='{% static "js/ng-infinite-scroll.min.js" %}'></script>
     <script src='{% static "js/ng-tags-input.min.js" %}'></script>
     <script src='{% static "js/ui-bootstrap-tpls-0.12.1.min.js" %}'></script>
+    <style>
+        body {
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        .container {
+            background: #ffffff;
+            border: 3px solid #EBEBEB;
+            padding-bottom: 30px;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- Fixed navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+{% if user.is_authenticated %}
 
-            <a class="navbar-brand" href="{% url 'index' %}">
-                <img src="{% static 'images/logo.png' %}">
-            </a>
-
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'links' %}">Latest Links</a></li>
-                    <li><a href="{% url 'my_stash' %}">My Stash</a></li>
-                {% else %}
-                {% endif %}
-
-            </ul>
-
-            {% if not user.is_authenticated %}
-                <span class="navbar-reg navbar-right"><a href="/accounts/signup/"
-                                                         class="btn btn-success">Register</a></span>
-            {% endif %}
-
-            <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                    {% get_social_accounts user as accounts %}
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {% if accounts %}
-                                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
-                                     class="img-circle profile-img-dropdown"/>
-                            {% else %}
-                                <img src="{% gravatar_url user.email 32 %}" class="img-circle profile-img-dropdown"/>
-                            {% endif %}
-                            {{ user.username }}
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{% url 'settings' %}"><span class="glyphicon glyphicon-cog"
-                                                                     aria-hidden="true"></span> Settings</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/accounts/logout"><span class="glyphicon glyphicon-log-out"
-                                                                 aria-hidden="true"></span> Sign Out</a></li>
-                        </ul>
-                    </li>
-                {% else %}
-                    <li><a href="/accounts/login">Sign In</a></li>
-                {% endif %}
-            </ul>
-        </div>
-        <!--/.nav-collapse -->
-    </div>
-</nav>
-
-{% block body_block %} {% endblock %}
-
-<footer class="footer">
-    <div class="container">
+    <div class="container" ng-app="MyStash" ng-controller="MyStashAddBMLCtrl">
         <div class="row">
             <div class="col-md-12">
-                <img src="{% static 'images/logo-grayscale.png' %}">
+                <form novalidate class="simple-form" name="addForm">
+                    <div class="modal-header">
+                        <img src="{% static 'images/logo.png' %}" class="text-center">
+
+                        <h3 class="modal-title">Create new bookmark</h3>
+                    </div>
+                    {% verbatim %}
+                    <div class="modal-body">
+                        <div class="form-group" ng-class="{ 'has-error': addForm.url.$invalid }">
+                            <label for="urlInput">URL</label>
+                            <input required name="url" id="urlInput" type="url" class="form-control"
+                                   placeholder="http://example.com"
+                                   ng-model="item.url"
+                                   {% endverbatim %}
+                                   data-ng-init="item.url='{{ url }}'">
+                            {% verbatim %}
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': addForm.title.$invalid }">
+                            <label for="titleInput">Title</label>
+                            <input required name="title" id="titleInput" type="text" class="form-control"
+                                   placeholder="My New Bookmark"
+                                   ng-model="item.title"
+                                   {% endverbatim %}
+                                   data-ng-init="item.title='{{ title }}'">
+                            {% verbatim %}
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="item.public"> Public
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="tagsInput">Tags</label>
+                            <tags-input id="tagsInput"
+                                        min-length="2"
+                                        display-property="name"
+                                        ng-model="item.tags">
+                                <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
+                            </tags-input>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-success" ng-click="save()"
+                                ng-disabled="canSave == false"><span class="glyphicon glyphicon-floppy-disk"
+                                                                     aria-hidden="true"></span> Save
+                        </button>
+                        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</footer>
+    {% endverbatim %}
+    <script src='{% static "js/views/my_stash.js" %}'></script>
+{% else %}
+    <div class="container" style="background: #ffffff" ng-app="MyStash" ng-controller="MyStashAddBMLCtrl">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Please login</h1>
+                <a href="/accounts/login" target="_parent" class="btn btn-success btn-xlarge">Login</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -141,3 +148,4 @@
 <script src='{% static "js/ie10-viewport-bug-workaround.js" %}'></script>
 </body>
 </html>
+

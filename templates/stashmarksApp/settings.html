@@ -27,7 +27,20 @@
 
                     <h3>{{ user.first_name }} {{ user.last_name }}</h3>
 
-                {% else %}
+                {% endif %}
+
+                <h4>Bookmarklet</h4>
+
+                <p>This is your personal bookmarklet. It will help you to add this quickly to you stash. Just drag &
+                    drop it in your bookmark bar and click it when you want to add a pacge to your stash.</p>
+
+                <p>
+                    <a class="btn btn-default"
+                       href="javascript:(function(e,t)%7Bvar%20n%20%3D%20e.document%3BsetTimeout(function()%20%7Bfunction%20a(e)%20%7Bif%20(e.data%20%3D%3D%3D%20%22destroy_bookmarklet%22)%20%7Bvar%20r%20%3D%20n.getElementById(t)%3Bif%20(r)%20%7Bn.body.removeChild(r)%3Br%20%3D%20null%7D%7D%7Dvar%20t%20%3D%20%22STASHURLINKS_iframe%22%3Bvar%20r%20%3D%20n.getElementById(t)%3Bif%20(r)%20%7Breturn%7Dvar%20s%20%3D%20n.createElement(%22iframe%22)%3Bs.id%20%3D%20t%3Bvar%20host%20%3D%20%22{{ SITE_PROTOCOL_URL | urlencode }}%22%3Bs.src%20%3D%20host%20%2B%20%22%2Fmystash%2Fadd%2Ftitle%2F%22%2BencodeURIComponent(n.title)%2B%22%2Furl%2F%22%2BencodeURIComponent(e.location.href)%3Bs.style.position%20%3D%20%22fixed%22%3Bs.style.top%20%3D%20%220%22%3Bs.style.left%20%3D%20%220%22%3Bs.style.height%20%3D%20%22100%25%22%3Bs.style.width%20%3D%20%22100%25%22%3Bs.style.zIndex%20%3D%20%2216777270%22%3Bs.style.border%20%3D%20%22none%22%3Bs.style.visibility%20%3D%20%22hidden%22%3Bs.onload%20%3D%20function()%20%7Bthis.style.visibility%20%3D%20%22visible%22%7D%3Bn.body.appendChild(s)%3Bvar%20o%20%3D%20e.addEventListener%20%3F%20%22addEventListener%22%20%3A%20%22attachEvent%22%3Bvar%20u%20%3D%20o%20%3D%3D%20%22attachEvent%22%20%3F%20%22onmessage%22%20%3A%20%22message%22%3Be%5Bo%5D(u%2C%20a%2C%20false)%7D%2C%201)%7D)(window)"
+                       role="button">✚ Add to StashURLinks</a>
+                </p>
+
+                {% if not accounts %}
                     <form method="POST" action="/settings/">
                         {% csrf_token %}
                         <h4>Change password</h4>

@@ -225,3 +225,32 @@ app.controller('MyStashAddCtrl', function ($scope, $modalInstance, $http) {
         $modalInstance.dismiss('cancel');
     };
 });
+
+app.controller('MyStashAddBMLCtrl', function ($scope, $http) {
+
+    $scope.canSave = true;
+
+    $scope.item = {
+        'public': false,
+        'thumb': 'dummy_data', // placeholder data
+        'date_created': "1970-01-01T00:00:00" // placeholder data
+    };
+
+    $scope.loadTags = function (query) {
+        return $http.get(baseUrl + "api/alltags/?format=json&q=" + query);
+    };
+
+    $scope.save = function () {
+        $scope.canSave = false; // disable the save button
+        $http
+            .post(baseUrl + "api/mybookmarks/?format=json", $scope.item)
+            .success(function (data, status) {
+                var item = data;
+                parent.postMessage("destroy_bookmarklet", "*");
+            });
+    };
+
+    $scope.cancel = function () {
+        parent.postMessage("destroy_bookmarklet", "*");
+    };
+});

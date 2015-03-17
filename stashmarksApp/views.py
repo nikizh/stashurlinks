@@ -4,6 +4,9 @@ from rest_framework import viewsets, permissions
 from stashmarksApp import models, serializers
 from django.contrib.auth.decorators import login_required
 from allauth.account.forms import ChangePasswordForm
+from django.views.decorators.clickjacking import xframe_options_exempt
+from urllib import parse
+import re
 
 
 def index(request):
@@ -19,6 +22,24 @@ def index(request):
 def my_stash(request):
     context_dict = {}
     return render(request, 'stashmarksApp/my_stash.html', context_dict)
+
+
+@xframe_options_exempt
+def my_stash_add(request, title, url):
+
+    # Clear non-ASCII characters
+    unicode_escaped_title = re.sub(r'[^\x00-\x7F]+', ' ', parse.unquote(title))
+
+    # Escape quote
+    escaped_title = unicode_escaped_title.replace("'", "\\'")
+
+    context_dict = {
+        'title': escaped_title,
+        'url': parse.unquote(url),
+    }
+
+    print(context_dict['title'])
+    return render(request, 'stashmarksApp/my_stash_add.html', context_dict)
 
 
 @login_required
