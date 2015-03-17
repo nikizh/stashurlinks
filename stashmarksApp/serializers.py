@@ -1,4 +1,5 @@
 import os
+import shutil
 from stashmarksProj import settings
 from stashmarksApp import models
 from rest_framework import serializers
@@ -38,18 +39,19 @@ class BookmarkSerializer(serializers.ModelSerializer):
 
         validated_data['date_created'] = datetime.utcnow()
 
+        hash_object = hashlib.sha1()
+
+        url = validated_data.get('url', validated_data)
+        hash_object.update(url.encode())
+
+        name = hash_object.hexdigest()[:7] + '.png'
+        validated_data['thumb'] = name
+
+        file_name = os.path.join(settings.THUMBS_PATH, name)
+
         try:
             driver = webdriver.PhantomJS(desired_capabilities=capabilities)
             driver.set_window_size(1024, 768)
-
-            hash_object = hashlib.sha1()
-
-            url = validated_data.get('url', validated_data)
-            hash_object.update(url.encode())
-
-            name = hash_object.hexdigest()[:7] + '.png'
-
-            file_name = os.path.join(settings.THUMBS_PATH, name)
 
             driver.get(url)
             driver.save_screenshot(file_name)
@@ -57,10 +59,9 @@ class BookmarkSerializer(serializers.ModelSerializer):
             im = im.crop((0, 0, 1024, 768))
             im.thumbnail([300, 300], Image.ANTIALIAS)
             im.save(file_name, quality=100)
-
-            validated_data['thumb'] = name
         except WebDriverException:
-            validated_data['thumb'] = 'placeholder.png'
+            placeholder_file_name = os.path.join(settings.THUMBS_PATH, 'placeholder.png')
+            shutil.copy(placeholder_file_name, file_name)
 
         tags = validated_data.get('tags', validated_data)
 
