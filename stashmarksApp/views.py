@@ -29,11 +29,8 @@ def my_stash(request):
 @xframe_options_exempt
 def my_stash_add(request, title, url):
 
-    # Clear non-ASCII characters
-    unicode_escaped_title = re.sub(r'[^\x00-\x7F]+', ' ', parse.unquote(title))
-
     # Escape quote
-    escaped_title = unicode_escaped_title.replace("'", "\\'")
+    escaped_title = title.replace("'", "\\'")
 
     context_dict = {
         'title': escaped_title,
