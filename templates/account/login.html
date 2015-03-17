@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 social-login">
+            <div class="col-md-6 col-sm-5 social-login">
                 {% for provider in socialaccount.providers %}
                     {% if provider.id == "facebook" %}
                         <a title="{{ provider.name }}" class="btn btn-block btn-social btn-lg btn-facebook"
@@ -33,7 +33,7 @@
                 {% endfor %}
                 {% include "socialaccount/snippets/login_extra.html" %}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-7">
                 <form class="login" method="POST" action="{% url 'account_login' %}">
                     {% csrf_token %}
                     <div class="form-group">
