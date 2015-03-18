@@ -144,8 +144,8 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
 class RateBookmark(APIView):
     def put(self, request, bookmarkId, format=None):
         user = self.request.user
-        currentRating, success = models.Ratings.objects.get_or_create(owner=user, bookmark__id=bookmarkId)
         currentBookmark = models.Bookmark.objects.get(id=bookmarkId)
+        currentRating, success = models.Ratings.objects.get_or_create(owner=user, bookmark=currentBookmark)
         serializer = serializers.RatingsSerializer(currentRating, data=request.data)
         if serializer.is_valid():
             wasLiked = currentRating.liked

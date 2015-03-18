@@ -32,8 +32,13 @@ class BookmarkSerializer(serializers.ModelSerializer):
     def get_liked(self, obj):
         request = self.context.get('request', None)
         user = request.user
-        current, success = models.Ratings.objects.get_or_create(owner=user, bookmark=obj)
-        return current.liked
+        try:
+            current = models.Ratings.objects.get(owner=user, bookmark=obj)
+            return current.liked
+        except models.Ratings.DoesNotExist:
+            pass
+        return False
+
 
     def create(self, validated_data):
 
