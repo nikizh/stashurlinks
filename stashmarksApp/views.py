@@ -33,7 +33,7 @@ def my_stash_add(request, title, url):
 
     context_dict = {
         'title': escaped_title,
-        'url': parse.unquote(url),
+        'url': url,
     }
 
     print(context_dict['title'])
