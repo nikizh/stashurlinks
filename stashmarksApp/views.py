@@ -1,4 +1,5 @@
 import os
+import re
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from rest_framework import status
@@ -8,7 +9,6 @@ from stashmarksApp import models, serializers
 from django.contrib.auth.decorators import login_required
 from allauth.account.forms import ChangePasswordForm
 from django.views.decorators.clickjacking import xframe_options_exempt
-from urllib import parse
 
 
 def index(request):
@@ -30,6 +30,13 @@ def my_stash(request):
 def my_stash_add(request, title, url):
     # Escape quote
     escaped_title = title.replace("'", "\\'")
+
+    # Hack for // being compacted into a single /
+    m = re.search(r'^(?P<protocol>\w+):/[^/].*$', url)
+
+    if m:
+        protocol = m.group('protocol')
+        url = url.replace(protocol + ':/', protocol + '://')
 
     context_dict = {
         'title': escaped_title,
