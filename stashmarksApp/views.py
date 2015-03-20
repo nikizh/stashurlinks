@@ -12,22 +12,40 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 
 def index(request):
-    context_dict = {}
+    """
+    Landing Page for non-registered users
+
+    :param request:
+    :return:
+    """
 
     if request.user.is_authenticated():
         return redirect('my_stash')
 
-    return render(request, 'stashmarksApp/index.html', context_dict)
+    return render(request, 'stashmarksApp/index.html')
 
 
 @login_required
 def my_stash(request):
-    context_dict = {}
-    return render(request, 'stashmarksApp/my_stash.html', context_dict)
+    """
+    Page with the user's bookmarks
+
+    :param request:
+    :return:
+    """
+    return render(request, 'stashmarksApp/my_stash.html')
 
 
 @xframe_options_exempt
 def my_stash_add(request, title, url):
+    """
+    Page with UI for adding of a new bookmark used for the bookmarklet
+
+    :param request:
+    :param title: title of the new bookmark
+    :param url: url of the new bookmark
+    :return:
+    """
     # Escape quote
     escaped_title = title.replace("'", "\\'")
 
@@ -49,12 +67,25 @@ def my_stash_add(request, title, url):
 
 @login_required
 def links(request):
-    context_dict = {}
-    return render(request, 'stashmarksApp/links.html', context_dict)
+    """
+    Page with all public bookmarks shared by all users.
+
+    :param request:
+    :return:
+    """
+
+    return render(request, 'stashmarksApp/links.html')
 
 
 @login_required
 def settings(request):
+    """
+    Page with user's setting with options for password changing.
+
+    :param request:
+    :return:
+    """
+
     context_dict = {}
 
     if request.method == 'POST':
@@ -75,6 +106,9 @@ def settings(request):
 
 # REST API
 class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    ViewSet that provide all Tags
+    """
     queryset = models.Tag.objects.all()
     serializer_class = serializers.TagSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -88,6 +122,9 @@ class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class MyBookmarksViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet that provides the user's bookmarks
+    """
     queryset = models.Bookmark.objects.order_by('-date_created')
     serializer_class = serializers.BookmarkSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -124,6 +161,9 @@ class MyBookmarksViewSet(viewsets.ModelViewSet):
 
 
 class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    ViewSet that provides all public bookmarks
+    """
     queryset = models.Bookmark.objects.order_by('-date_created')
     serializer_class = serializers.BookmarkSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -149,6 +189,9 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class RateBookmark(APIView):
+    """
+    ViewSet that allow rating of bookmarks
+    """
     def put(self, request, bookmarkId, format=None):
         user = self.request.user
         currentBookmark = models.Bookmark.objects.get(id=bookmarkId)

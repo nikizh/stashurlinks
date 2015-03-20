@@ -39,7 +39,6 @@ class BookmarkSerializer(serializers.ModelSerializer):
             pass
         return False
 
-
     def create(self, validated_data):
 
         validated_data['date_created'] = datetime.utcnow()

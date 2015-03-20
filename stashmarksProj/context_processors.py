@@ -2,7 +2,12 @@ from django.conf import settings
 
 
 def baseurl(request):
+    """
+    Template Helper for site URLs
 
+    :param request:
+    :return:
+    """
     SITE_PROTOCOL_RELATIVE_URL = '//' + settings.SITE_URL
 
     SITE_PROTOCOL = 'http'
