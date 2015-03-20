@@ -61,7 +61,6 @@ def my_stash_add(request, title, url):
         'url': url,
     }
 
-    print(context_dict['title'])
     return render(request, 'stashmarksApp/my_stash_add.html', context_dict)
 
 
@@ -107,7 +106,7 @@ def settings(request):
 # REST API
 class AllTagsViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    ViewSet that provide all Tags
+    ViewSet that provides all Tags
     """
     queryset = models.Tag.objects.all()
     serializer_class = serializers.TagSerializer
@@ -190,7 +189,7 @@ class AllBookmarksViewSet(viewsets.ReadOnlyModelViewSet):
 
 class RateBookmark(APIView):
     """
-    ViewSet that allow rating of bookmarks
+    ViewSet that allows rating of bookmarks
     """
     def put(self, request, bookmarkId, format=None):
         user = self.request.user
