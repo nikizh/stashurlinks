@@ -95,7 +95,7 @@ app.controller("LinksListController", ['$scope', '$http',
         };
 
         $scope.likeClick = function (link) {
-            $http.put(baseUrl + "api/rating/" + link.id + "/?format=json&q=", {liked: !link.liked}).success(function (data, status) {
+            $http.put(baseUrl + "api/rating/" + link.id + "/?format=json", {liked: !link.liked}).success(function (data, status) {
                 link.liked = data.liked;
                 link.likes = data.likes;
             });
