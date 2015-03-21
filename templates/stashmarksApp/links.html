@@ -90,14 +90,15 @@
                                 <span class="label label-default tag-label" ng-repeat="tag in link.tags"
                                       ng-click="filterByTag(tag)">{{ tag.name }}</span>
                             </div>
-                            <div>
-                                Likes <span class="badge">{{ link.likes }}</span>
-                                <button class="btn btn-xs btn-primary" ng-hide="link.liked" ng-click="likeClick(link)">
-                                    Like
-                                </button>
-                                <button class="btn btn-xs btn-primary" ng-show="link.liked" ng-click="likeClick(link)">
-                                    Unlike
-                                </button>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="clearfix">
+                                <div class="pull-left like-link" ng-class="{'liked': link.liked}" ng-click="likeClick(link)">
+                                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                                    {{ link.likes }}
+                                    <a ng-hide="link.liked">Like</a>
+                                    <a ng-show="link.liked">Unlike</a>
+                                </div>
                             </div>
                         </div>
                     </div>
