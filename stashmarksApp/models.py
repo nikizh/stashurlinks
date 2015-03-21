@@ -4,6 +4,10 @@ from datetime import datetime
 
 
 class Tag(models.Model):
+    """
+    Bookmark Tag
+    """
+
     name = models.CharField(max_length=25, primary_key=True)
 
     def __str__(self):
@@ -11,6 +15,9 @@ class Tag(models.Model):
 
 
 class Bookmark(models.Model):
+    """
+    Bookmark
+    """
     title = models.CharField(max_length=256)
     url = models.URLField()
     public = models.BooleanField(default=True)
@@ -25,6 +32,10 @@ class Bookmark(models.Model):
 
 
 class Ratings(models.Model):
+    """
+    Bookmark rating
+    """
+
     owner = models.ForeignKey(User)
     bookmark = models.ForeignKey(Bookmark)
     liked = models.BooleanField(default=False)

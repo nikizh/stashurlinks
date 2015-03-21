@@ -1,16 +1,9 @@
 """
-Django settings for stashmarksProj project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.7/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.7/ref/settings/
+Django settings for the project.
 """
+import os
 from stashmarksProj.secret import *
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
@@ -19,10 +12,6 @@ TEMPLATE_DIRS = [
     TEMPLATE_PATH,
 ]
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 TEMPLATE_DEBUG = True
@@ -79,8 +68,6 @@ WSGI_APPLICATION = 'stashmarksProj.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -90,24 +77,18 @@ DATABASES = {
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = False
 
+# SITE URL
 SITE_DOMAIN = 'localhost'
 SITE_NAME = 'localhost'
 SITE_URL = 'localhost:8000'
 
 # Static files (CSS, JavaScript, Images)
-
 STATIC_PATH = os.path.join(BASE_DIR, 'static')
 
 STATIC_URL = '/static/'
@@ -120,13 +101,14 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 THUMBS_PATH = os.path.join(MEDIA_ROOT, 'thumbs')
 
+# Auth
 LOGIN_REDIRECT_URL = '/mystash'
 SITE_ID = 2
 
-#auth
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
+# Production Settings overrides
 try:
     from stashmarksProj.local_settings import *
 except ImportError as e:
