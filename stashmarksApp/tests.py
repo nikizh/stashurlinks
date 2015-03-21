@@ -1,6 +1,10 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+import populate_db
 import stashmarksApp.models as models
+import stashmarksProj
+
 
 class ModelTests(TestCase):
 
@@ -44,4 +48,22 @@ class MyStashAddViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['title'], 'TEST123')
         self.assertEqual(response.context['url'], 'http://bbc.com')
+
+class RestAPITests(TestCase):
+
+    def setUp(self):
+        populate_db.populate()
+        if 'allauth.socialaccount' in stashmarksProj.settings.INSTALLED_APPS:
+            # Otherwise ImproperlyConfigured exceptions may occur
+            from allauth.socialaccount.models import SocialApp
+            sa = SocialApp.objects.create(name='testfb',
+                                          provider='facebook')
+            sa.sites.add(Site.objects.get_current())
+
+    def test_get_all_tags(self):
+        responseLogin = self.client.post('/accounts/login/',{'login':'user1','password':'pass'})
+        self.assertEqual(responseLogin.status_code, 302)
+        response = self.client.get('/api/alltags/?format=json')
+
+        self.assertEqual(response.status_code, 200)
 
