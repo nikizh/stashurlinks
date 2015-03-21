@@ -19,6 +19,17 @@ class ModelTests(TestCase):
         self.assertEqual(bm.likes, 1)
         self.assertEqual(bm.owner,testUser)
 
+    def test_ensure_ratings_constructor(self):
+        testUser = User()
+        testUser.save()
+        bm = models.Bookmark(title="Test",public=False, likes=1, owner=testUser)
+        bm.save()
+        rating = models.Ratings(owner=testUser,bookmark=bm,liked=True)
+        rating.save()
+        self.assertEqual(rating.owner,testUser)
+        self.assertEqual(rating.bookmark,bm)
+        self.assertEqual(rating.liked,True)
+
 class MyStashAddViewTests(TestCase):
 
     def test_malformed_url_input(self):
