@@ -67,6 +67,7 @@ class RestAPITests(TestCase):
         response = self.client.get('/api/alltags/?format=json')
 
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(len(response.data) > 0)
 
     def test_get_all_bookmarks(self):
         responseLogin = self.client.post('/accounts/login/', {'login': 'user1', 'password': 'pass'})
@@ -74,6 +75,7 @@ class RestAPITests(TestCase):
         response = self.client.get('/api/allbookmarks/?format=json')
 
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data["count"] > 0)
 
     def test_get_all_bookmarks_by_likes(self):
         responseLogin = self.client.post('/accounts/login/', {'login': 'user1', 'password': 'pass'})
@@ -81,20 +83,25 @@ class RestAPITests(TestCase):
         response = self.client.get('/api/allbookmarks/?format=json&order=likes')
 
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data["results"][0]["likes"] >= response.data["results"][1]["likes"])
 
     def test_get_bookmarks_by_tags(self):
         responseLogin = self.client.post('/accounts/login/', {'login': 'user1', 'password': 'pass'})
         self.assertEqual(responseLogin.status_code, 302)
-        response = self.client.get('/api/allbookmarks/?format=json&tags=python')
+        response = self.client.get('/api/allbookmarks/?format=json&tags=News')
 
+        results = response.data["results"]
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(results[0]["tags"][0]["name"], "News")
 
     def test_get_bookmarks_by_text(self):
         responseLogin = self.client.post('/accounts/login/', {'login': 'user1', 'password': 'pass'})
         self.assertEqual(responseLogin.status_code, 302)
-        response = self.client.get('/api/allbookmarks/?format=json&q=pyt')
+        response = self.client.get('/api/allbookmarks/?format=json&q=learn')
 
+        results = response.data["results"]
         self.assertEqual(response.status_code, 200)
+        self.assertTrue("Learn" in results[0]["title"])
 
     def test_get_my_bookmarks(self):
         responseLogin = self.client.post('/accounts/login/', {'login': 'user1', 'password': 'pass'})
@@ -102,27 +109,34 @@ class RestAPITests(TestCase):
         response = self.client.get('/api/mybookmarks/?format=json')
 
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data["count"] > 0)
 
     def test_get_my_bookmarks_public(self):
         responseLogin = self.client.post('/accounts/login/', {'login': 'user1', 'password': 'pass'})
         self.assertEqual(responseLogin.status_code, 302)
         response = self.client.get('/api/mybookmarks/?format=json&visibility=pub')
 
+        results = response.data["results"]
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(results[0]["public"], True)
 
     def test_get_my_bookmarks_by_tags(self):
         responseLogin = self.client.post('/accounts/login/', {'login': 'user1', 'password': 'pass'})
         self.assertEqual(responseLogin.status_code, 302)
-        response = self.client.get('/api/mybookmarks/?format=json&tags=python')
+        response = self.client.get('/api/mybookmarks/?format=json&tags=Js')
 
+        results = response.data["results"]
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(results[0]["tags"][0]["name"], "Js")
 
-    def test_get_bookmarks_by_text(self):
+    def test_get_my_bookmarks_by_text(self):
         responseLogin = self.client.post('/accounts/login/', {'login': 'user1', 'password': 'pass'})
         self.assertEqual(responseLogin.status_code, 302)
-        response = self.client.get('/api/mybookmarks/?format=json&q=pyt')
+        response = self.client.get('/api/mybookmarks/?format=json&q=learn')
 
+        results = response.data["results"]
         self.assertEqual(response.status_code, 200)
+        self.assertTrue("Learn" in results[0]["title"])
 
     def test_like_bookmark(self):
         responseLogin = self.client.post('/accounts/login/', {'login': 'user1', 'password': 'pass'})
